@@ -26,8 +26,8 @@ class App extends Component {
     this.setState(
       { [name]: value },
       () => {
-        if (shouldReload) { 
-          this.queryAPI() 
+        if (shouldReload) {
+          this.queryAPI()
         }
       }
     )
@@ -82,7 +82,7 @@ class App extends Component {
                 value={this.state.companyName}
                 onChange={this.handleChange}
               />
-              <p>Statistics</p>
+              <p>Page Statistics:</p>
               <input
                 type='text'
                 name='pageStatistics'
@@ -94,14 +94,14 @@ class App extends Component {
           :
           (
             <div>
-              <p>id</p>
+              <p>Post ID:</p>
               <input
                 type='text'
                 name='postID'
                 value={this.state.postID}
                 onChange={this.handleChange}
               />
-              <p>Statistics</p>
+              <p>Post Statistics:</p>
               <input
                 type='text'
                 name='postStatistics'
