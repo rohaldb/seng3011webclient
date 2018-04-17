@@ -1,11 +1,20 @@
 import React, { Component } from 'react'
 import './App.css'
 import JSONTree from 'react-json-tree'
+import { withStyles } from 'material-ui/styles'
+import Grid from 'material-ui/Grid'
+
+// Styles should go here CSS should go here
+const styles = theme => ({
+  root: {
+    textAlign: 'center',
+  },
+});
 
 class App extends Component {
 
   state = {
-    accessToken: 'EAACEdEose0cBAMVddfB7ziNHMR5bGBbfZBIxY2lnHHAZBJF03WWD3jEJhpGN64aqIXCTBnIhBKlvvgPNe3M4V60wZAho6NDgocxF7EXbi7PBfPZAPwRima0eToJNEThibb9aEfyrA9IqYzIy0ui0p4K1ubvOIb936FO9lGqURFBj1PLrGUb12TQEXZBH6wucZD',
+    accessToken: 'EAACEdEose0cBAAXK5ZBl7hGS8ei8pYvkSRWNOsja90z2JemNRwjK8N3BXB4cfKlPGZAuP8ke6Yz9GFuKEDHdodRIWlPZCXk7ehx1swHFPSfgVeFuit6NZAZARh0MG03E682giriYo6Lov4vMroCVwzBOOrgLnLjCMk38Nq9QnXDnjpTAo1gQweq5nSHx3VC0ZD',
     companyName: 'facebook',
     pageStatistics: '',
     searchPage: true,
@@ -52,74 +61,76 @@ class App extends Component {
 
   render () {
     const { responseJSON } = this.state
+    const { classes } = this.props
 
     return (
-      <div className='App'>
+      <Grid container justify="center" className={classes.root}>
+        <Grid item xs={10}>
+          <p>Access Token</p>
+          <input
+            type='text'
+            name='accessToken'
+            value={this.state.accessToken}
+            onChange={this.handleChange}
+          />
 
-        <p>Access Token</p>
-        <input
-          type='text'
-          name='accessToken'
-          value={this.state.accessToken}
-          onChange={this.handleChange}
-        />
+          <p>Searching Page? (alternative is posts)</p>
+          <input
+            type="checkbox"
+            name="searchPage"
+            checked={this.state.searchPage}
+            onChange={(e) => this.handleChange(e, true)}
+          />
 
-        <p>Searching Page? (alternative is posts)</p>
-        <input
-          type="checkbox"
-          name="searchPage"
-          checked={this.state.searchPage}
-          onChange={(e) => this.handleChange(e, true)}
-        />
+          {this.state.searchPage ?
+            (
+              <div>
+                <p>Company Name:</p>
+                <input
+                  type='text'
+                  name='companyName'
+                  value={this.state.companyName}
+                  onChange={this.handleChange}
+                />
+                <p>Page Statistics:</p>
+                <input
+                  type='text'
+                  name='pageStatistics'
+                  value={this.state.pageStatistics}
+                  onChange={this.handleChange}
+                />
+              </div>
+            )
+            :
+            (
+              <div>
+                <p>Post ID:</p>
+                <input
+                  type='text'
+                  name='postID'
+                  value={this.state.postID}
+                  onChange={this.handleChange}
+                />
+                <p>Post Statistics:</p>
+                <input
+                  type='text'
+                  name='postStatistics'
+                  value={this.state.postStatistics}
+                  onChange={this.handleChange}
+                />
+              </div>
+            )
+          }
+          <button onClick={() => this.queryAPI()}>Search</button>
 
-        {this.state.searchPage ?
-          (
-            <div>
-              <p>Company Name:</p>
-              <input
-                type='text'
-                name='companyName'
-                value={this.state.companyName}
-                onChange={this.handleChange}
-              />
-              <p>Page Statistics:</p>
-              <input
-                type='text'
-                name='pageStatistics'
-                value={this.state.pageStatistics}
-                onChange={this.handleChange}
-              />
-            </div>
-          )
-          :
-          (
-            <div>
-              <p>Post ID:</p>
-              <input
-                type='text'
-                name='postID'
-                value={this.state.postID}
-                onChange={this.handleChange}
-              />
-              <p>Post Statistics:</p>
-              <input
-                type='text'
-                name='postStatistics'
-                value={this.state.postStatistics}
-                onChange={this.handleChange}
-              />
-            </div>
-          )
-        }
-        <button onClick={() => this.queryAPI()}>Search</button>
-
-        {responseJSON ?
-          <JSONTree data={responseJSON} shouldExpandNode={(keyName, data) => keyName.includes("posts") ? false : true}/>
-          : null
-        }
-      </div>
+          {responseJSON ?
+            <JSONTree data={responseJSON} shouldExpandNode={(keyName, data) => keyName.includes("posts") ? false : true}/>
+            : null
+          }
+        </Grid>
+      </Grid>
     )
   }
 }
 
-export default App
+export default withStyles(styles)(App)
