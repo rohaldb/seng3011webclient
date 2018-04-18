@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
+import _ from 'lodash'
 import JSONTree from 'react-json-tree'
 import { withStyles } from 'material-ui/styles'
 import Grid from 'material-ui/Grid'
@@ -7,6 +8,7 @@ import Paper from 'material-ui/Paper'
 import Tabs, { Tab } from 'material-ui/Tabs'
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
+import Chip from 'material-ui/Chip'
 import 'typeface-roboto'
 
 // Styles should go here CSS should go here
@@ -23,17 +25,29 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
   },
-});
+  chip: {
+    margin: theme.spacing.unit / 2,
+  }
+})
 
 class App extends Component {
 
   state = {
     accessToken: 'EAACEdEose0cBAPmoEBCCGk8SV71GDEb00mMZBtYNEQA0TZBGoxLPaE9gknRDiiYZAwU84AE7vuuGeCcVWuc7XZAXgZCxOnsa7CT4rePwZCfFKTUj6tvhCUofxHHx22EtBgKbmGPECAAZCWXzEQHPug0Qgk72RFIVwGo1UM3K9LyaOuBIrFTrhdd23eIN100fPMZD',
     companyName: 'facebook',
-    pageStatistics: '',
+    pageStatistics: [
+      { key: 0, label: 'id' },
+      { key: 1, label: 'name' },
+      { key: 2, label: 'website' },
+      { key: 3, label: 'description' },
+      { key: 4, label: 'category' },
+      { key: 5, label: 'fan_count' },
+      { key: 6, label: 'posts' },
+    ],
     postStatistics: '',
     postID: '20531316728_10157104308481729',
     value: 0,
+    newCategory: '',
     activeTab: 0
   }
 
@@ -57,9 +71,19 @@ class App extends Component {
     )
   }
 
+  handleDelete = data => () => {
+    const pageStatistics = [...this.state.pageStatistics]
+    const chipToDelete = pageStatistics.indexOf(data)
+    pageStatistics.splice(chipToDelete, 1)
+    this.setState({ pageStatistics })
+  }
+
   queryAPI() {
-    const { accessToken, companyName, pageStatistics, postStatistics, postID, activeTab } = this.state
+    const { accessToken, companyName, postStatistics, postID, activeTab } = this.state
     const searchPage = activeTab === 0 ? true : false
+
+    // pull out pageStatistics from object
+    const pageStatistics = _.map(this.state.pageStatistics, x => x.label)
 
     const apiBase = searchPage ? `${companyName}?statistics=${pageStatistics}` : `post/${postID}?statistics=${postStatistics}`
 
@@ -67,7 +91,7 @@ class App extends Component {
     .then((response) => {
       if (response.ok) {
         response.json().then(data => {
-          console.log(data);
+          console.log(data)
           this.setState({ responseJSON: data })
         })
       }
@@ -79,13 +103,29 @@ class App extends Component {
     this.setState({ activeTab: value })
   }
 
+  addCategory = () => {
+    let pageStatistics = [...this.state.pageStatistics]
+    
+    //generate new key from 0 .. 10000
+    let key = Math.floor((Math.random() * 10000) + 1)
+    // ensure the keyis unique
+    while (!_.isEmpty(_.filter(pageStatistics, stat => stat.key === key ))) {
+      key = Math.floor((Math.random() * 10000) + 1)
+    }
+    
+    pageStatistics.push({ key, label: this.state.newCategory })
+    this.setState({ pageStatistics })
+
+  }
+
+
   render () {
     const { responseJSON } = this.state
     const { classes } = this.props
 
     return (
       <Grid container alignItems="center" spacing={0} direction="column" className={classes.root}>
-        <Grid item xs={12}>
+        <Grid item>
           <Paper className={classes.root}>
             <Tabs
               value={this.state.activeTab}
@@ -100,6 +140,7 @@ class App extends Component {
             </Tabs>
           </Paper>
 
+
           <TextField
             label="Access Token"
             name='accessToken'
@@ -108,7 +149,7 @@ class App extends Component {
             onChange={this.handleChange}
             margin="normal"
           />
-          
+
           {this.state.activeTab === 0 ?
             (
               <div>
@@ -121,14 +162,44 @@ class App extends Component {
                   margin="normal"
                 />
 
+                <br/>
+
                 <TextField
+                  label="Add Category"
+                  name="newCategory"
+                  className={classes.textField}
+                  value={this.state.newCategory}
+                  onChange={this.handleChange}
+                  margin="normal"
+                />
+
+                <Button
+                  variant="raised"
+                  color="secondary"
+                  size="small"
+                  className={classes.button}
+                  onClick={() => this.addCategory()}>
+                  Add Category
+                </Button>
+
+                {this.state.pageStatistics.map(data =>
+                    <Chip
+                      key={data.key}
+                      label={data.label}
+                      onDelete={this.handleDelete(data)}
+                      className={classes.chip}
+                    />
+                )}
+
+
+                {/* <TextField
                   label="Page Statistics"
                   name='pageStatistics'
                   className={classes.textField}
                   value={this.state.pageStatistics}
                   onChange={this.handleChange}
                   margin="normal"
-                />
+                /> */}
               </div>
             )
             :
@@ -155,9 +226,9 @@ class App extends Component {
               </div>
             )
           }
-          <Button 
-            variant="raised" 
-            color="primary" 
+          <Button
+            variant="raised"
+            color="primary"
             className={classes.button}
             onClick={() => this.queryAPI()}>
             Search
