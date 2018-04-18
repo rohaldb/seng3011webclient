@@ -28,6 +28,9 @@ const styles = theme => ({
   chip: {
     margin: theme.spacing.unit / 2,
   },
+  jsonPane: {
+    textAlign: 'left',
+  }
 });
 
 class App extends Component {
@@ -266,7 +269,7 @@ class App extends Component {
           </Grid>
         </Grid>
         <Grid item xs={6}>
-          <Grid container justify="center" direction="column">
+          <Grid container justify="center" direction="column" className={classes.jsonPane}>
             {responseJSON ?
               <JSONTree data={responseJSON} shouldExpandNode={(keyName, data) => keyName.includes("posts") ? false : true} />
               : null
