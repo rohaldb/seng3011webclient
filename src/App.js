@@ -203,6 +203,8 @@ class App extends Component {
                       Add Category
                     </Button>
 
+                    <br/>
+
                     {this.state.pageStatistics.map(data =>
                         <Chip
                           key={data.key}
