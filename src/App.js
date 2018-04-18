@@ -3,23 +3,38 @@ import './App.css'
 import JSONTree from 'react-json-tree'
 import { withStyles } from 'material-ui/styles'
 import Grid from 'material-ui/Grid'
+import Paper from 'material-ui/Paper'
+import Tabs, { Tab } from 'material-ui/Tabs'
+import Button from 'material-ui/Button'
+import TextField from 'material-ui/TextField'
+import 'typeface-roboto'
 
 // Styles should go here CSS should go here
 const styles = theme => ({
   root: {
+    flexGrow: 1,
     textAlign: 'center',
+    fontFamily: 'Roboto'
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+  },
+  button: {
+    margin: theme.spacing.unit,
   },
 });
 
 class App extends Component {
 
   state = {
-    accessToken: 'EAACEdEose0cBAAXK5ZBl7hGS8ei8pYvkSRWNOsja90z2JemNRwjK8N3BXB4cfKlPGZAuP8ke6Yz9GFuKEDHdodRIWlPZCXk7ehx1swHFPSfgVeFuit6NZAZARh0MG03E682giriYo6Lov4vMroCVwzBOOrgLnLjCMk38Nq9QnXDnjpTAo1gQweq5nSHx3VC0ZD',
+    accessToken: 'EAACEdEose0cBAPmoEBCCGk8SV71GDEb00mMZBtYNEQA0TZBGoxLPaE9gknRDiiYZAwU84AE7vuuGeCcVWuc7XZAXgZCxOnsa7CT4rePwZCfFKTUj6tvhCUofxHHx22EtBgKbmGPECAAZCWXzEQHPug0Qgk72RFIVwGo1UM3K9LyaOuBIrFTrhdd23eIN100fPMZD',
     companyName: 'facebook',
     pageStatistics: '',
-    searchPage: true,
     postStatistics: '',
-    postID: '20531316728_10157104308481729'
+    postID: '20531316728_10157104308481729',
+    value: 0,
+    activeTab: 0
   }
 
   componentDidMount() {
@@ -43,7 +58,8 @@ class App extends Component {
   }
 
   queryAPI() {
-    const { accessToken, companyName, pageStatistics, postStatistics, postID, searchPage } = this.state
+    const { accessToken, companyName, pageStatistics, postStatistics, postID, activeTab } = this.state
+    const searchPage = activeTab === 0 ? true : false
 
     const apiBase = searchPage ? `${companyName}?statistics=${pageStatistics}` : `post/${postID}?statistics=${postStatistics}`
 
@@ -59,69 +75,94 @@ class App extends Component {
     .catch(error => console.error(error))
   }
 
+  updateTabs = (event, value) => {
+    this.setState({ activeTab: value })
+  }
+
   render () {
     const { responseJSON } = this.state
     const { classes } = this.props
 
     return (
-      <Grid container justify="center" className={classes.root}>
-        <Grid item xs={10}>
-          <p>Access Token</p>
-          <input
-            type='text'
+      <Grid container alignItems="center" spacing={0} direction="column" className={classes.root}>
+        <Grid item xs={12}>
+          <Paper className={classes.root}>
+            <Tabs
+              value={this.state.activeTab}
+              onChange={this.updateTabs}
+              indicatorColor="primary"
+              textColor="primary"
+              fullWidth
+              centered
+            >
+              <Tab label="Query a Company" />
+              <Tab label="Query a Post" />
+            </Tabs>
+          </Paper>
+
+          <TextField
+            label="Access Token"
             name='accessToken'
+            className={classes.textField}
             value={this.state.accessToken}
             onChange={this.handleChange}
+            margin="normal"
           />
-
-          <p>Searching Page? (alternative is posts)</p>
-          <input
-            type="checkbox"
-            name="searchPage"
-            checked={this.state.searchPage}
-            onChange={(e) => this.handleChange(e, true)}
-          />
-
-          {this.state.searchPage ?
+          
+          {this.state.activeTab === 0 ?
             (
               <div>
-                <p>Company Name:</p>
-                <input
-                  type='text'
+                <TextField
+                  label="Company Name"
                   name='companyName'
+                  className={classes.textField}
                   value={this.state.companyName}
                   onChange={this.handleChange}
+                  margin="normal"
                 />
-                <p>Page Statistics:</p>
-                <input
-                  type='text'
+
+                <TextField
+                  label="Page Statistics"
                   name='pageStatistics'
+                  className={classes.textField}
                   value={this.state.pageStatistics}
                   onChange={this.handleChange}
+                  margin="normal"
                 />
               </div>
             )
             :
             (
               <div>
-                <p>Post ID:</p>
-                <input
-                  type='text'
+                <TextField
+                  label="Post ID"
                   name='postID'
+                  className={classes.textField}
                   value={this.state.postID}
                   onChange={this.handleChange}
+                  margin="normal"
                 />
-                <p>Post Statistics:</p>
-                <input
-                  type='text'
+
+                <TextField
+                  label="Post Statistics"
                   name='postStatistics'
+                  className={classes.textField}
                   value={this.state.postStatistics}
                   onChange={this.handleChange}
+                  margin="normal"
                 />
+
               </div>
             )
           }
-          <button onClick={() => this.queryAPI()}>Search</button>
+          <Button 
+            variant="raised" 
+            color="primary" 
+            className={classes.button}
+            onClick={() => this.queryAPI()}>
+            Search
+          </Button>
+
 
           {responseJSON ?
             <JSONTree data={responseJSON} shouldExpandNode={(keyName, data) => keyName.includes("posts") ? false : true}/>
