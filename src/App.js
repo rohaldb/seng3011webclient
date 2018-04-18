@@ -33,7 +33,7 @@ const styles = theme => ({
 class App extends Component {
 
   state = {
-    accessToken: 'EAACEdEose0cBAPmoEBCCGk8SV71GDEb00mMZBtYNEQA0TZBGoxLPaE9gknRDiiYZAwU84AE7vuuGeCcVWuc7XZAXgZCxOnsa7CT4rePwZCfFKTUj6tvhCUofxHHx22EtBgKbmGPECAAZCWXzEQHPug0Qgk72RFIVwGo1UM3K9LyaOuBIrFTrhdd23eIN100fPMZD',
+    accessToken: 'EAACEdEose0cBADZAniu5Ou11v7nlZB5wZA0JyRMTbVGVIZBZANS2kPPHFVct3VrZChkVzRKfPQV2L2LyCIFXAEUCb9To5GtRPmeoPAkK29tvpchv9Q8Xi1Hr9jcdGejuZB4C2PrQlfUMkgMhlMjhurDJoSvDbHKU3KBgDVmZBMHWevFdwBXEUUNldCqal7ZAyhPgZD',
     companyName: 'facebook',
     pageStatistics: [
       { key: 0, label: 'id' },
@@ -120,16 +120,20 @@ class App extends Component {
     //generate new key from 0 .. 10000
     let key = Math.floor((Math.random() * 10000) + 1)
     // ensure the keyis unique
-    while (!_.isEmpty(_.filter(statistics, stat => stat.key === key ))) {
+    while (!this.uniqueKey(statistics, key)) {
       key = Math.floor((Math.random() * 10000) + 1)
     }
 
     statistics.push({ key, label: this.state.newCategory })
 
     const statKey = pageStatistics ? "pageStatistics" : "postStatistics"
-    this.setState({ [statKey]: statistics })
-
+    this.setState({ [statKey]: statistics, newCategory: '' })
   }
+
+  //checks whether the given statistics array contains an elem with the given key
+  uniqueKey = (statistics, key) =>
+    _.isEmpty(_.filter(statistics, stat => stat.key === key ))
+
 
 
   render () {
