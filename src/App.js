@@ -16,7 +16,7 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     textAlign: 'center',
-    fontFamily: 'Roboto'
+    fontFamily: 'Roboto',
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -27,8 +27,8 @@ const styles = theme => ({
   },
   chip: {
     margin: theme.spacing.unit / 2,
-  }
-})
+  },
+});
 
 class App extends Component {
 
@@ -142,10 +142,9 @@ class App extends Component {
 
     return (
       <Grid container className={classes.root} direction="row">
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <Grid container justify="center" direction="column">
             <Grid item xs={12}>
-
               <Paper>
                 <Tabs
                   value={this.state.activeTab}
@@ -263,14 +262,15 @@ class App extends Component {
                 onClick={() => this.queryAPI()}>
                 Search
               </Button>
-
-
-              {responseJSON ?
-                <JSONTree data={responseJSON} shouldExpandNode={(keyName, data) => keyName.includes("posts") ? false : true}/>
-                : null
-              }
-
             </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={6}>
+          <Grid container justify="center" direction="column">
+            {responseJSON ?
+              <JSONTree data={responseJSON} shouldExpandNode={(keyName, data) => keyName.includes("posts") ? false : true} />
+              : null
+            }
           </Grid>
         </Grid>
       </Grid>
