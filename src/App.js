@@ -9,6 +9,10 @@ import Tabs, { Tab } from 'material-ui/Tabs'
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
 import Chip from 'material-ui/Chip'
+import Card, { CardActions, CardContent } from 'material-ui/Card'
+import Typography from 'material-ui/Typography'
+import ExpansionPanel, { ExpansionPanelDetails, ExpansionPanelSummary,} from 'material-ui/ExpansionPanel'
+
 import 'typeface-roboto'
 
 // Styles should go here CSS should go here
@@ -96,6 +100,7 @@ class App extends Component {
       if (response.ok) {
         response.json().then(data => {
           console.log(data)
+          console.log(data.data.name)
           this.setState({ responseJSON: data })
         })
       }
@@ -274,10 +279,29 @@ class App extends Component {
         </Grid>
         <Grid item xs={6}>
           <Grid container justify="center" direction="column" className={classes.jsonPane}>
-            {responseJSON ?
-              <JSONTree data={responseJSON} shouldExpandNode={(keyName, data) => keyName.includes("posts") ? false : true} />
-              : null
-            }
+            <Card className={classes.card}>
+              <CardContent>
+                <Typography className={classes.title} color="textSecondary">
+                  Company Name:
+                </Typography>
+                <Typography variant="headline" component="h2">
+                  {responseJSON ? responseJSON.data.name + ' (' + responseJSON.data.category + ')': null}
+                </Typography>
+                <Typography className={classes.pos} color="textSecondary">
+                  {responseJSON ? 'id: ' + responseJSON.data.id : null}
+                  <br/>
+                  {responseJSON ? 'website: ' + responseJSON.data.website : null}
+                  <br/>
+                  {responseJSON ? 'fan_count: ' + responseJSON.data.fan_count : null}
+                </Typography>
+                <Typography component="p">
+                  <br/>
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small">Posts</Button>
+              </CardActions>
+            </Card>
           </Grid>
         </Grid>
       </Grid>
@@ -286,3 +310,12 @@ class App extends Component {
 }
 
 export default withStyles(styles)(App)
+
+
+// {responseJSON ?
+//   <JSONTree data={responseJSON} shouldExpandNode={(keyName, data) => keyName.includes("posts") ? false : true} />
+//   : null
+// }
+
+
+//{Object.keys(this.state).data}
