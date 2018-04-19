@@ -7,7 +7,8 @@ import Paper from 'material-ui/Paper'
 import Tabs, { Tab } from 'material-ui/Tabs'
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
-import Chip from 'material-ui/Chip'
+import Checkbox from 'material-ui/Checkbox'
+import { FormControlLabel } from 'material-ui/Form'
 import CompanyCard from './CompanyCard'
 
 
@@ -38,25 +39,25 @@ const styles = theme => ({
 class App extends Component {
 
   state = {
-    accessToken: 'EAACEdEose0cBAEfKmMGGENBdKlJcpVuijH1lnoYVu6x13u4xlzNy01l2jSIDUjTy6LAi6xD979ytzd0IJ9ZCG6EVnxLhxwvMElg42UJFroRGDBrv4fwan9FQf452tSO5xWYg7ZCByQxPmmyZA5A2QjmcDs02eHP1SiVqApukZC6hKrsqWguIjHomOcW34akZD',
+    accessToken: 'EAACEdEose0cBAEPSbZAZCMFHkZC1r5K7sByMWca4ZAEuP5coGDXUNQRwQukTgmjmNuvdvcX1nDtK9CyKETakYDv0ZCrfpcuNfEtHe0A9DjWj3hgmhcE5WZCOPe4q360p6aLFceIWy1ZCPnN5Gm6ZBtzneevOYgnpuDe02zA97FWrptOO5wkwHx5z7wlfqo1cUmZA4Yd1axJzc4gZDZD',
     companyName: 'facebook',
-    pageStatistics: [
-      { key: 0, label: 'id' },
-      { key: 1, label: 'name' },
-      { key: 2, label: 'website' },
-      { key: 3, label: 'description' },
-      { key: 4, label: 'category' },
-      { key: 5, label: 'fan_count' },
-      { key: 6, label: 'posts' },
-    ],
-    postStatistics: [
-      { key: 0, label: 'type' },
-      { key: 1, label: 'name' },
-      { key: 2, label: 'message' },
-      { key: 3, label: 'created_time' },
-      { key: 4, label: 'likes' },
-      { key: 5, label: 'comments' },
-    ],
+    pageStatistics: {
+      'id': true,
+      'name': true,
+      'website': true,
+      'description': true,
+      'category': true,
+      'fan_count': true,
+      'posts': true,
+    },
+    postStatistics: {
+      'type': true,
+      'name': true,
+      'message': true,
+      'created_time': true,
+      'likes': true,
+      'comments': true,
+    },
     postID: '20531316728_10157104308481729',
     value: 0,
     newCategory: '',
@@ -72,9 +73,18 @@ class App extends Component {
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
 
+    let newState
+    if (target.type === 'checkbox') {
+        const statisticType = this.state.activeTab === 0 ? "pageStatistics" : "postStatistics"
+        newState = { 
+          [statisticType]: { ...this.state[statisticType], [name]: value} 
+        }
+    } else {
+        newState = { [name]: value }
+    }
     //need to pass callback function to load API when set state is finished since it is asynch
     this.setState(
-      { [name]: value },
+      newState,
       () => {
         if (shouldReload) {
           this.queryAPI()
@@ -88,8 +98,8 @@ class App extends Component {
     const searchPage = activeTab === 0 ? true : false
 
     // pull out statistics from object
-    const pageStatistics = _.map(this.state.pageStatistics, x => x.label).join(",")
-    const postStatistics = _.map(this.state.postStatistics, x => x.label).join(",")
+    const pageStatistics = _.keys(_.pickBy(this.state.pageStatistics, (v, k) => v === true)).join(",")
+    const postStatistics = _.keys(_.pickBy(this.state.postStatistics, (v, k) => v === true)).join(",")
 
     const apiBase = searchPage ? `${companyName}?statistics=${pageStatistics}` : `post/${postID}?statistics=${postStatistics}`
 
@@ -98,7 +108,6 @@ class App extends Component {
       if (response.ok) {
         response.json().then(data => {
           console.log(data)
-          console.log(data.data.name)
           this.setState({ responseJSON: data })
         })
       }
@@ -106,44 +115,11 @@ class App extends Component {
     .catch(error => console.error(error))
   }
 
-  updateTabs = (event, value) => {
-    this.setState({ activeTab: value })
-  }
-
-  handleDelete = (data, pageStatistics = true) => () => {
-    let statistics = [...pageStatistics ? this.state.pageStatistics : this.state.postStatistics]
-
-    const chipToDelete = statistics.indexOf(data)
-    statistics.splice(chipToDelete, 1)
-
-    const statKey = pageStatistics ? "pageStatistics" : "postStatistics"
-    this.setState({ [statKey]: statistics })
-  }
-
-  addCategory = (pageStatistics = true) => {
-    let statistics = [...pageStatistics ? this.state.pageStatistics : this.state.postStatistics]
-
-    //generate new key from 0 .. 10000
-    let key = Math.floor((Math.random() * 10000) + 1)
-    // ensure the keyis unique
-    while (!this.uniqueKey(statistics, key)) {
-      key = Math.floor((Math.random() * 10000) + 1)
-    }
-
-    statistics.push({ key, label: this.state.newCategory })
-
-    const statKey = pageStatistics ? "pageStatistics" : "postStatistics"
-    this.setState({ [statKey]: statistics, newCategory: '' })
-  }
-
-  //checks whether the given statistics array contains an elem with the given key
-  uniqueKey = (statistics, key) =>
-    _.isEmpty(_.filter(statistics, stat => stat.key === key ))
-
+  updateTabs = (event, value) => this.setState({ activeTab: value })
 
 
   render () {
-    const { responseJSON } = this.state
+    const { responseJSON, pageStatistics, postStatistics, activeTab } = this.state
     const { classes } = this.props
 
     return (
@@ -174,7 +150,7 @@ class App extends Component {
                 margin="normal"
               />
 
-              {this.state.activeTab === 0 ?
+              {activeTab === 0 ?
                 (
                   <div>
                     <TextField
@@ -188,33 +164,18 @@ class App extends Component {
 
                     <br/>
 
-                    <TextField
-                      label="Add Category"
-                      name="newCategory"
-                      className={classes.textField}
-                      value={this.state.newCategory}
-                      onChange={this.handleChange}
-                      margin="normal"
-                    />
-
-                    <Button
-                      variant="raised"
-                      color="secondary"
-                      size="small"
-                      className={classes.button}
-                      onClick={() => this.addCategory()}>
-                      Add Category
-                    </Button>
-
-                    <br/>
-
-                    {this.state.pageStatistics.map(data =>
-                        <Chip
-                          key={data.key}
-                          label={data.label}
-                          onDelete={this.handleDelete(data)}
-                          className={classes.chip}
-                        />
+                    {_.map(_.keys(pageStatistics), (stat, i) =>
+                      <FormControlLabel
+                        key={i}
+                        control={
+                          <Checkbox
+                            checked={pageStatistics[stat]}
+                            name={stat}
+                            onChange={(e) => this.handleChange(e, false)}
+                          />
+                        }
+                        label={stat}
+                      />
                     )}
 
                   </div>
@@ -233,35 +194,20 @@ class App extends Component {
 
                     <br/>
 
-                    <TextField
-                      label="Add Category"
-                      name="newCategory"
-                      className={classes.textField}
-                      value={this.state.newCategory}
-                      onChange={this.handleChange}
-                      margin="normal"
-                    />
-
-                    <Button
-                      variant="raised"
-                      color="secondary"
-                      size="small"
-                      className={classes.button}
-                      onClick={() => this.addCategory(false)}>
-                      Add Category
-                    </Button>
-
-                    <br/>
-
-                    {this.state.postStatistics.map(data =>
-                        <Chip
-                          key={data.key}
-                          label={data.label}
-                          onDelete={this.handleDelete(data, false)}
-                          className={classes.chip}
-                        />
+                    {_.map(_.keys(postStatistics), (stat, i) =>
+                      <FormControlLabel
+                        key={i}
+                        control={
+                          <Checkbox
+                            checked={postStatistics[stat]}
+                            name={stat}
+                            onChange={(e) => this.handleChange(e, false)}
+                          />
+                        }
+                        label={stat}
+                      />
                     )}
-
+                    
                   </div>
                 )
               }
