@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
 import _ from 'lodash'
-import JSONTree from 'react-json-tree'
 import { withStyles } from 'material-ui/styles'
 import Grid from 'material-ui/Grid'
 import Paper from 'material-ui/Paper'
@@ -9,9 +8,8 @@ import Tabs, { Tab } from 'material-ui/Tabs'
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
 import Chip from 'material-ui/Chip'
-import Card, { CardActions, CardContent } from 'material-ui/Card'
-import Typography from 'material-ui/Typography'
-import ExpansionPanel, { ExpansionPanelDetails, ExpansionPanelSummary,} from 'material-ui/ExpansionPanel'
+import CompanyCard from './CompanyCard'
+
 
 import 'typeface-roboto'
 
@@ -40,7 +38,7 @@ const styles = theme => ({
 class App extends Component {
 
   state = {
-    accessToken: 'EAACEdEose0cBADZAniu5Ou11v7nlZB5wZA0JyRMTbVGVIZBZANS2kPPHFVct3VrZChkVzRKfPQV2L2LyCIFXAEUCb9To5GtRPmeoPAkK29tvpchv9Q8Xi1Hr9jcdGejuZB4C2PrQlfUMkgMhlMjhurDJoSvDbHKU3KBgDVmZBMHWevFdwBXEUUNldCqal7ZAyhPgZD',
+    accessToken: 'EAACEdEose0cBAEfKmMGGENBdKlJcpVuijH1lnoYVu6x13u4xlzNy01l2jSIDUjTy6LAi6xD979ytzd0IJ9ZCG6EVnxLhxwvMElg42UJFroRGDBrv4fwan9FQf452tSO5xWYg7ZCByQxPmmyZA5A2QjmcDs02eHP1SiVqApukZC6hKrsqWguIjHomOcW34akZD',
     companyName: 'facebook',
     pageStatistics: [
       { key: 0, label: 'id' },
@@ -150,7 +148,7 @@ class App extends Component {
 
     return (
       <Grid container className={classes.root} direction="row">
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <Grid container justify="center" direction="column">
             <Grid item xs={12}>
               <Paper>
@@ -277,45 +275,15 @@ class App extends Component {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <Grid container justify="center" direction="column" className={classes.jsonPane}>
-            <Card className={classes.card}>
-              <CardContent>
-                <Typography className={classes.title} color="textSecondary">
-                  Company Name:
-                </Typography>
-                <Typography variant="headline" component="h2">
-                  {responseJSON ? responseJSON.data.name + ' (' + responseJSON.data.category + ')': null}
-                </Typography>
-                <Typography className={classes.pos} color="textSecondary">
-                  {responseJSON ? 'id: ' + responseJSON.data.id : null}
-                  <br/>
-                  {responseJSON ? 'website: ' + responseJSON.data.website : null}
-                  <br/>
-                  {responseJSON ? 'fan_count: ' + responseJSON.data.fan_count : null}
-                </Typography>
-                <Typography component="p">
-                  <br/>
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small">Posts</Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        </Grid>
+
+        { responseJSON ? <CompanyCard responseJSON={responseJSON}/> : null }
+
       </Grid>
     )
   }
 }
 
 export default withStyles(styles)(App)
-
-
-// {responseJSON ?
-//   <JSONTree data={responseJSON} shouldExpandNode={(keyName, data) => keyName.includes("posts") ? false : true} />
-//   : null
-// }
 
 
 //{Object.keys(this.state).data}
