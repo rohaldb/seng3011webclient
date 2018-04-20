@@ -95,20 +95,3 @@ CompanyInfo.propTypes = {
 };
 
 export default withStyles(styles)(CompanyInfo)
-
-// {Object.values(data.posts).map((item,index) =>
-//   <Typography color="textSecondary" key={index}>
-//     {`${item.message}`}
-//
-//
-//   </Typography>
-// )}
-
-//
-// {_.map(_.keys(data.posts), (key, i) =>
-//   key !== 'posts' && key !== 'name' ?
-//   (<Typography color="textSecondary" key={i}>
-//     {`${key}: ${data.posts[key]}`}
-//   </Typography>)
-//   : null
-// )}

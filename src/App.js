@@ -66,11 +66,7 @@ class App extends Component {
     start_date: "",
     end_date: ""
   }
-
-  componentDidMount() {
-    this.queryAPI()
-  }
-
+  
   handleChange = (event, shouldReload = false) => {
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : target.value
@@ -103,14 +99,15 @@ class App extends Component {
     //turn date to ISO
     const start_date = (new moment(this.state.start_date)).toISOString()
     const end_date = (new moment(this.state.end_date)).toISOString()
-    console.log(start_date);
+
     // pull out statistics from object
     const pageStatistics = _.keys(_.pickBy(this.state.pageStatistics, (v, k) => v === true)).join(",")
     const postStatistics = _.keys(_.pickBy(this.state.postStatistics, (v, k) => v === true)).join(",")
 
     let apiBase = searchPage ? `${companyName}?statistics=${pageStatistics}` : `post/${postID}?statistics=${postStatistics}`
 
-    start_date && end_date ? apiBase += `&start_date=${start_date}&end_date=${end_date}` : null
+    if (start_date && end_date) 
+      apiBase += `&start_date=${start_date}&end_date=${end_date}` 
     
     fetch(`https://unassigned-api.herokuapp.com/api/${apiBase}&access_token=${accessToken}`)
     .then((response) => {
@@ -264,5 +261,3 @@ class App extends Component {
 
 export default withStyles(styles)(App)
 
-
-//{Object.keys(this.state).data}
