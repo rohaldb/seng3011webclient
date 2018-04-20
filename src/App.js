@@ -39,7 +39,7 @@ const styles = theme => ({
 class App extends Component {
 
   state = {
-    accessToken: 'EAACEdEose0cBANf8eFFxjFgIHqalvD0lztnooosuuPzYvo49HZBfD2ntKksrUzv9aANcnr2tIIYpkYZBFIzMGTKmF6UupcVNMTrpPI22sn0lHyPfvsNRJCxMSNP1tJh1Cua13Xqg5s5lhKRsr3qrnGQyZBMeZCLM2usI18zuP0W3ZCJE4yBqbB9wmeEoohMQZD',
+    accessToken: 'EAACEdEose0cBAF1zs1QQcSYnnugWyZC9LNstgOjY6w4RkLXlxlf722rC8j3LFS6u4SR63Nde2Rk8hmIPUpnhziZBiZA6CIHURSdd7BTTsTyZAx1YE2N6UJvZAINeRRBxRyArlDsZAP2uTFSwZB9wgVDkXsS7rF8nXGincDEuVKjBTU6eNxSCGYMPWxL6RiqZADlb8oPna5Q4sutVHl1GVbAap3ZBwzeqx7FoZD',
     companyName: 'facebook',
     pageStatistics: {
       'id': true,
