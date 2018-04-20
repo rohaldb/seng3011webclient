@@ -49,7 +49,8 @@ class CompanyInfo extends Component {
         )}
         <br></br>
           {console.log(data.posts)}
-          {Object.values(data.posts).map((item,index) =>
+        {data && data.posts ?
+          (Object.values(data.posts).map((item,index) =>
             <ExpansionPanel>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}>{`Post ${index}`}</Typography>
@@ -72,7 +73,8 @@ class CompanyInfo extends Component {
                 }
               </ExpansionPanelDetails>
             </ExpansionPanel>
-          )}
+          )
+        ): null}
       </div>
     )
   }
