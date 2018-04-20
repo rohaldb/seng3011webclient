@@ -121,7 +121,11 @@ class App extends Component {
     .catch(error => console.error(error))
   }
 
-  updateTabs = (event, value) => this.setState({ activeTab: value })
+  updateTabs = (event, value) => {
+    if (value !== this.state.activeTab) { // Different tab
+      this.setState({activeTab: value, responseJSON: null});
+    }
+  };
 
 
   render () {
