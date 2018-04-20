@@ -29,7 +29,7 @@ class PostInfo extends Component {
 
         {_.map(_.keys(data), (key, i) =>
           key !== 'id' ?
-          (<Typography color="inherit" key={i}>
+          (<Typography key={i}>
             {`${key}: ${data[key]}`}
           </Typography>)
           : null

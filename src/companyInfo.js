@@ -10,16 +10,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 const styles = theme => ({
   root: {
     flexGrow: 1,
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    flexBasis: '33.33%',
-    flexShrink: 0,
-  },
-  secondaryHeading: {
-    fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary,
-  },
+  }
 })
 
 class CompanyInfo extends Component {
@@ -33,15 +24,9 @@ class CompanyInfo extends Component {
     const { classes } = this.props
     return (
       <div>
-        {data && data.name ?
-        (
-          <Typography variant="display1" >
-            {data.name}
-          </Typography>
-        ): null}
 
         {_.map(_.keys(data), (key, i) =>
-          key !== 'posts' && key !== 'name' ?
+          key !== 'posts' ?
           (<Typography color="textSecondary" key={i}>
             {`${key}: ${data[key]}`}
           </Typography>)

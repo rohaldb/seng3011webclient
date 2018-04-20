@@ -20,7 +20,7 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     textAlign: 'center',
-    fontFamily: 'Roboto',
+    fontFamily: 'Roboto'
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -40,7 +40,7 @@ const styles = theme => ({
 class App extends Component {
 
   state = {
-    accessToken: 'EAACEdEose0cBADKI26yFN2qNYEyJp5OLPjZAupar1gjY3SuwIeGZBXZCyoEVKlbV0tCZAs0Nc7S0O2UAfl8z41ChDQ1FL40APO49mL7ew0DIwcM3k7ZCqZBjMTdegpxZA2RHDQHDJ2F3xZAoGCObmwbILT4zbZAY42ZC5joWKLCJDInsOzkRfTkds5xIfmwZBywZCvcZD',
+    accessToken: 'EAACEdEose0cBAE80tzeyedA4bmyMql2W3HDDeRlhUiZC7jQ0OL5vIPAPeJCCWfee2cQBLmMVj7QCd4UkrPFh950BCg2BLggqSWPtWQBR0RZApb6z8NVCJsnCkcFEQLFQM1EFCcyFGqJHqSxy2X1UKZCplqHLzN3WGVaBOA5HsLE66w2x6Xjpyab6teZAB6uZCczOXdmGFmQZDZD',
     companyName: 'facebook',
     pageStatistics: {
       'id': true,
