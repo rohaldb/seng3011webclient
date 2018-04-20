@@ -41,15 +41,15 @@ class ResponseCard extends Component {
               {_.map(_.keys(responseJSON), (key, i) =>
                 key !== 'data' && key !== 'params' ?
                 (<Typography color="textSecondary" key={i}>
-                  {`${key}: ${responseJSON[key]}`}
+                  <b>{key}: </b> {responseJSON[key]}
                 </Typography>)
                 : null
               )}
               <Typography color="textSecondary" >
-                Statistics: {responseJSON.params.statistics}
+                <b>Statistics:</b> {responseJSON.params.statistics}
               </Typography>
               <Typography color="textSecondary" noWrap>
-                Access Token: {responseJSON.params.access_token}
+                <b>Access Token:</b> {responseJSON.params.access_token}
               </Typography>
             </CardContent>
           </Card>
@@ -60,7 +60,7 @@ class ResponseCard extends Component {
             <CardContent>
 
               { activeTab === 0 ?
-                <CompanyInfo data={data} />
+                <b><CompanyInfo data={data} /></b>
                 :
                 <PostInfo data={data} />
               }

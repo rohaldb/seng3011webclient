@@ -28,7 +28,7 @@ class CompanyInfo extends Component {
         {_.map(_.keys(data), (key, i) =>
           key !== 'posts' ?
           (<Typography color="textSecondary" key={i}>
-            {`${key}: ${data[key]}`}
+            <b>{key}: </b> {data[key]}
           </Typography>)
           : null
         )}
@@ -44,25 +44,25 @@ class CompanyInfo extends Component {
                 {item.message && item.message !== 'undefined'?
                 (
                   <Typography>
-                    {`id: ${item.id}`}
+                    <b>id: </b> {item.id}
                     <br></br>
-                    {`time_posted: ${item.created_time}`}
+                    <b>time_posted: </b>{item.created_time}
                     <br></br>
-                    {`likes: ${item.likes}`}
+                    <b>likes: </b> {item.likes}
                     <br></br>
-                    {`comments: ${item.comments}`}
+                    <b>comments: </b>{item.comments}
                     <br></br><br></br>
                     {`${item.message}`}
                   </Typography>
                 ):
                   <Typography>
-                    {`id: ${item.id}`}
+                    <b>id: </b> {item.id}
                     <br></br>
-                    {`time posted: ${item.created_time}`}
+                    <b>time posted: </b> {item.created_time}
                     <br></br>
-                    {`likes: ${item.likes}`}
+                    <b>likes: </b> {item.likes}
                     <br></br>
-                    {`comments: ${item.comments}`}
+                    <b>comments: </b> {item.comments}
                     <br></br><br></br>
                     {`${item.story}`}
                   </Typography>
