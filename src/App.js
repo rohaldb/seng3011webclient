@@ -51,14 +51,14 @@ class App extends Component {
       'posts': true,
     },
     postStatistics: {
+      'id': true,
       'type': true,
-      'name': true,
       'message': true,
       'created_time': true,
       'likes': true,
       'comments': true,
     },
-    postID: '20531316728_10157104308481729',
+    postID: '20531316728_10157293947771729',
     value: 0,
     newCategory: '',
     activeTab: 0

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Grid from 'material-ui/Grid'
 import Card, { CardContent } from 'material-ui/Card'
 import CompanyInfo from './companyInfo'
+import PostInfo from './postInfo'
 import Typography from 'material-ui/Typography'
 import _ from 'lodash'
 
@@ -40,7 +41,7 @@ class ResponseCard extends Component {
                 </Typography>)
                 : null
               )}
-              
+
               {_.map(_.keys(responseJSON.params), (key, i) =>
                 (<Typography color="textSecondary" key={i}>
                   {`${key}: ${responseJSON.params[key]}`}
@@ -51,7 +52,8 @@ class ResponseCard extends Component {
 
               { activeTab === 0 ?
                 <CompanyInfo data={data} />
-                : null
+                :
+                <PostInfo data={data} />
               }
 
             </CardContent>

@@ -22,7 +22,7 @@ const styles = theme => ({
   },
 })
 
-class CompanyInfo extends Component {
+class PostInfo extends Component {
 
   // static propTypes = {
   //   // data: PropTypes.object.isRequired
@@ -33,6 +33,7 @@ class CompanyInfo extends Component {
     const { classes } = this.props
     return (
       <div>
+      {console.log(data)}
         {data && data.name ?
         (
           <Typography variant="display1" >
@@ -40,61 +41,33 @@ class CompanyInfo extends Component {
           </Typography>
         ): null}
 
-        {_.map(_.keys(data), (key, i) =>
-          key !== 'posts' && key !== 'name' ?
-          (<Typography color="textSecondary" key={i}>
-            {`${key}: ${data[key]}`}
-          </Typography>)
-          : null
-        )}
         <br></br>
-        {data && data.posts ?
-          (Object.values(data.posts).map((item,index) =>
-            <ExpansionPanel key={index}>
+            <ExpansionPanel key={data.id}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>{`Post ${index}`}</Typography>
-                <Typography className={classes.secondaryHeading}>{`${item.id}`}</Typography>
+                <Typography className={classes.heading}>{`Post`}</Typography>
+                <Typography className={classes.secondaryHeading}>{`${data.id}`}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                {item.message && item.message !== 'undefined'?
-                (
-                  <Typography>
-                    {`id: ${item.id}`}
-                    <br></br>
-                    {`time_posted: ${item.created_time}`}
-                    <br></br>
-                    {`likes: ${item.likes}`}
-                    <br></br>
-                    {`comments: ${item.comments}`}
-                    <br></br><br></br>
-                    {`${item.message}`}
-                  </Typography>
-                ):
-                  <Typography>
-                    {`id: ${item.id}`}
-                    <br></br>
-                    {`time posted: ${item.created_time}`}
-                    <br></br>
-                    {`likes: ${item.likes}`}
-                    <br></br>
-                    {`comments: ${item.comments}`}
-                    <br></br><br></br>
-                    {`${item.story}`}
-                  </Typography>
-                }
+                {_.map(_.keys(data), (key, i) =>
+                  key !== 'id' ?
+                  (<Typography color="inherit" key={i}>
+                    {`${key}: ${data[key]}`}
+                  </Typography>)
+                  : null
+                )}
               </ExpansionPanelDetails>
             </ExpansionPanel>
-          )
-        ): null}
+        <br></br>
+
       </div>
     )
   }
 }
-CompanyInfo.propTypes = {
+PostInfo.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CompanyInfo)
+export default withStyles(styles)(PostInfo)
 
 // {Object.values(data.posts).map((item,index) =>
 //   <Typography color="textSecondary" key={index}>
