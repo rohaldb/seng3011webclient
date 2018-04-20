@@ -9,7 +9,7 @@ import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
 import { FormControlLabel } from 'material-ui/Form'
-import CompanyCard from './CompanyCard'
+import ResponseCard from './responseCard'
 
 
 import 'typeface-roboto'
@@ -76,8 +76,8 @@ class App extends Component {
     let newState
     if (target.type === 'checkbox') {
         const statisticType = this.state.activeTab === 0 ? "pageStatistics" : "postStatistics"
-        newState = { 
-          [statisticType]: { ...this.state[statisticType], [name]: value} 
+        newState = {
+          [statisticType]: { ...this.state[statisticType], [name]: value}
         }
     } else {
         newState = { [name]: value }
@@ -207,7 +207,7 @@ class App extends Component {
                         label={stat}
                       />
                     )}
-                    
+
                   </div>
                 )
               }
@@ -222,7 +222,7 @@ class App extends Component {
           </Grid>
         </Grid>
 
-        { responseJSON ? <CompanyCard responseJSON={responseJSON}/> : null }
+        { responseJSON ? <ResponseCard responseJSON={responseJSON} activeTab={activeTab}/> : null }
 
       </Grid>
     )
