@@ -172,7 +172,7 @@ class App extends Component {
                       margin="normal"
                     />
 
-                    <TextField
+                    {/* <TextField
                       label="Start Date"
                       type="date"
                       name="start_date"
@@ -194,7 +194,7 @@ class App extends Component {
                       InputLabelProps={{
                         shrink: true,
                       }}
-                    />
+                    /> */}
 
                     <br/>
 
