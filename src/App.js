@@ -10,6 +10,7 @@ import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
 import { FormControlLabel } from 'material-ui/Form'
 import ResponseCard from './responseCard'
+import moment from 'moment'
 
 
 import 'typeface-roboto'
@@ -61,7 +62,9 @@ class App extends Component {
     postID: '20531316728_10157293947771729',
     value: 0,
     newCategory: '',
-    activeTab: 0
+    activeTab: 0,
+    start_date: "",
+    end_date: ""
   }
 
   componentDidMount() {
@@ -97,12 +100,18 @@ class App extends Component {
     const { accessToken, companyName, postID, activeTab } = this.state
     const searchPage = activeTab === 0 ? true : false
 
+    //turn date to ISO
+    const start_date = (new moment(this.state.start_date)).toISOString()
+    const end_date = (new moment(this.state.end_date)).toISOString()
+    console.log(start_date);
     // pull out statistics from object
     const pageStatistics = _.keys(_.pickBy(this.state.pageStatistics, (v, k) => v === true)).join(",")
     const postStatistics = _.keys(_.pickBy(this.state.postStatistics, (v, k) => v === true)).join(",")
 
-    const apiBase = searchPage ? `${companyName}?statistics=${pageStatistics}` : `post/${postID}?statistics=${postStatistics}`
+    let apiBase = searchPage ? `${companyName}?statistics=${pageStatistics}` : `post/${postID}?statistics=${postStatistics}`
 
+    start_date && end_date ? apiBase += `&start_date=${start_date}&end_date=${end_date}` : null
+    
     fetch(`https://unassigned-api.herokuapp.com/api/${apiBase}&access_token=${accessToken}`)
     .then((response) => {
       if (response.ok) {
@@ -160,6 +169,30 @@ class App extends Component {
                       value={this.state.companyName}
                       onChange={this.handleChange}
                       margin="normal"
+                    />
+
+                    <TextField
+                      label="Start Date"
+                      type="date"
+                      name="start_date"
+                      className={classes.textField}
+                      value={this.state.start_date}
+                      onChange={(e) => this.handleChange(e, false)}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+
+                    <TextField
+                      label="End Date"
+                      type="date"
+                      name="end_date"
+                      className={classes.textField}
+                      onChange={(e) => this.handleChange(e, false)}
+                      value={this.state.end_date}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                     />
 
                     <br/>
