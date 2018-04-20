@@ -24,40 +24,30 @@ const styles = theme => ({
 
 class PostInfo extends Component {
 
-  // static propTypes = {
-  //   // data: PropTypes.object.isRequired
-  // }
+  static propTypes = {
+    data: PropTypes.object.isRequired
+  }
 
   render () {
-    const { data } = this.props
-    const { classes } = this.props
+    const { data, classes } = this.props
+
+    console.log(data)
     return (
       <div>
-      {console.log(data)}
         {data && data.name ?
         (
           <Typography variant="display1" >
-            {data.name}
+            Post {data.id}
           </Typography>
         ): null}
 
-        <br></br>
-            <ExpansionPanel key={data.id}>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>{`Post`}</Typography>
-                <Typography className={classes.secondaryHeading}>{`${data.id}`}</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                {_.map(_.keys(data), (key, i) =>
-                  key !== 'id' ?
-                  (<Typography color="inherit" key={i}>
-                    {`${key}: ${data[key]}`}
-                  </Typography>)
-                  : null
-                )}
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-        <br></br>
+        {_.map(_.keys(data), (key, i) =>
+          key !== 'id' ?
+          (<Typography color="inherit" key={i}>
+            {`${key}: ${data[key]}`}
+          </Typography>)
+          : null
+        )}
 
       </div>
     )
@@ -68,20 +58,3 @@ PostInfo.propTypes = {
 };
 
 export default withStyles(styles)(PostInfo)
-
-// {Object.values(data.posts).map((item,index) =>
-//   <Typography color="textSecondary" key={index}>
-//     {`${item.message}`}
-//
-//
-//   </Typography>
-// )}
-
-//
-// {_.map(_.keys(data.posts), (key, i) =>
-//   key !== 'posts' && key !== 'name' ?
-//   (<Typography color="textSecondary" key={i}>
-//     {`${key}: ${data.posts[key]}`}
-//   </Typography>)
-//   : null
-// )}

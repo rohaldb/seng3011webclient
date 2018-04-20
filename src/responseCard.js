@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { withStyles } from 'material-ui/styles'
 import PropTypes from 'prop-types'
 import Grid from 'material-ui/Grid'
-import Card, { CardContent } from 'material-ui/Card'
+import Card, { CardHeader, CardContent } from 'material-ui/Card'
 import CompanyInfo from './companyInfo'
 import PostInfo from './postInfo'
 import Typography from 'material-ui/Typography'
@@ -12,6 +12,9 @@ import _ from 'lodash'
 const styles = theme => ({
   jsonPane: {
     textAlign: 'left',
+  },
+  card: {
+    margin: theme.spacing.unit
   }
 });
 
@@ -31,9 +34,10 @@ class ResponseCard extends Component {
       <Grid item xs={12}>
         <Grid container justify="center" direction="column" className={classes.jsonPane}>
           <Card className={classes.card}>
+            <CardHeader
+            title="Metadata"
+            />
             <CardContent>
-
-            <p>METADATA</p>
               {_.map(_.keys(responseJSON), (key, i) =>
                 key !== 'data' && key !== 'params' ?
                 (<Typography color="textSecondary" key={i}>
@@ -41,14 +45,19 @@ class ResponseCard extends Component {
                 </Typography>)
                 : null
               )}
-
-              {_.map(_.keys(responseJSON.params), (key, i) =>
-                (<Typography color="textSecondary" key={i}>
-                  {`${key}: ${responseJSON.params[key]}`}
-                </Typography>)
-              )}
-
-
+              <Typography color="textSecondary" >
+                Statistics: {responseJSON.params.statistics}
+              </Typography>
+              <Typography color="textSecondary" noWrap>
+                Access Token: {responseJSON.params.access_token}
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card className={classes.card}>
+            <CardHeader
+            title="Data"
+            />
+            <CardContent>
 
               { activeTab === 0 ?
                 <CompanyInfo data={data} />
@@ -58,6 +67,8 @@ class ResponseCard extends Component {
 
             </CardContent>
           </Card>
+
+          
         </Grid>
       </Grid>
     )

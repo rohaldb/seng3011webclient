@@ -24,9 +24,9 @@ const styles = theme => ({
 
 class CompanyInfo extends Component {
 
-  // static propTypes = {
-  //   // data: PropTypes.object.isRequired
-  // }
+  static propTypes = {
+    data: PropTypes.object.isRequired
+  }
 
   render () {
     const { data } = this.props
