@@ -51,7 +51,7 @@ class CompanyInfo extends Component {
           {console.log(data.posts)}
         {data && data.posts ?
           (Object.values(data.posts).map((item,index) =>
-            <ExpansionPanel>
+            <ExpansionPanel key={index}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}>{`Post ${index}`}</Typography>
                 <Typography className={classes.secondaryHeading}>{`${item.id}`}</Typography>
