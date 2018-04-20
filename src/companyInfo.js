@@ -8,7 +8,19 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 // Styles should go here CSS should go here
 const styles = theme => ({
-});
+  root: {
+    flexGrow: 1,
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    flexBasis: '33.33%',
+    flexShrink: 0,
+  },
+  secondaryHeading: {
+    fontSize: theme.typography.pxToRem(15),
+    color: theme.palette.text.secondary,
+  },
+})
 
 class CompanyInfo extends Component {
 
@@ -18,7 +30,7 @@ class CompanyInfo extends Component {
 
   render () {
     const { data } = this.props
-
+    const { classes } = this.props
     return (
       <div>
         {data && data.name ?
@@ -35,28 +47,49 @@ class CompanyInfo extends Component {
           </Typography>)
           : null
         )}
-
-        <p> POSTS GO HERE </p>
+        <br></br>
           {console.log(data.posts)}
-
-
           {Object.values(data.posts).map((item,index) =>
-            <Typography color="textSecondary" key={index}>
-              {`Post ${index}: message: ${item.message} `}
-            </Typography>
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>{`Post ${index}`}</Typography>
+                <Typography className={classes.secondaryHeading}>{`${item.id}`}</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                {item.message ?
+                (
+                  <Typography>
+                    {`${item.created_time}`}
+                    <br></br>
+                    {`${item.message}`}
+                  </Typography>
+                ):
+                  <Typography>
+                    {`${item.created_time}`}
+                    <br></br>
+                    {`${item.story}`}
+                  </Typography>
+                }
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
           )}
-
-
-
-
-
-
       </div>
     )
   }
 }
+CompanyInfo.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(CompanyInfo)
+
+// {Object.values(data.posts).map((item,index) =>
+//   <Typography color="textSecondary" key={index}>
+//     {`${item.message}`}
+//
+//
+//   </Typography>
+// )}
 
 //
 // {_.map(_.keys(data.posts), (key, i) =>
