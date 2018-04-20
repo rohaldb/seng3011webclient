@@ -97,8 +97,8 @@ class App extends Component {
     const searchPage = activeTab === 0 ? true : false
 
     //turn date to ISO
-    const start_date = (new moment(this.state.start_date)).seconds(0).milliseconds(0).toISOString().match(/(\d{4})-(\d{2})-(\d{2})/)[0]
-    const end_date = (new moment(this.state.end_date)).seconds(0).milliseconds(0).toISOString().match(/(\d{4})-(\d{2})-(\d{2})/)[0]
+    const start_date = (new moment(this.state.start_date)).seconds(0).milliseconds(0).toISOString()
+    const end_date = (new moment(this.state.end_date)).seconds(0).milliseconds(0).toISOString()
 
     // pull out statistics from object
     const pageStatistics = _.keys(_.pickBy(this.state.pageStatistics, (v, k) => v === true)).join(",")
@@ -107,7 +107,7 @@ class App extends Component {
     let apiBase = searchPage ? `${companyName}?statistics=${pageStatistics}` : `post/${postID}?statistics=${postStatistics}`
 
     if (start_date && end_date)
-      apiBase += `&start_date=${start_date}&end_date=${end_date}`
+      apiBase += `&start_date=${start_date.match(/(\d{4})-(\d{2})-(\d{2})/)[0]}&end_date=${end_date.match(/(\d{4})-(\d{2})-(\d{2})/)[0]}`
 
     fetch(`https://unassigned-api.herokuapp.com/api/${apiBase}&access_token=${accessToken}`)
     .then((response) => {
