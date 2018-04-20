@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import Grid from 'material-ui/Grid'
 import Card, { CardContent } from 'material-ui/Card'
 import CompanyInfo from './companyInfo'
+import Typography from 'material-ui/Typography'
+import _ from 'lodash'
 
 // Styles should go here CSS should go here
 const styles = theme => ({
@@ -30,7 +32,21 @@ class ResponseCard extends Component {
           <Card className={classes.card}>
             <CardContent>
 
-            <p>DISPLAY METADATA HERE</p>
+            <p>METADATA</p>
+              {_.map(_.keys(responseJSON), (key, i) =>
+                key !== 'data' && key !== 'params' ?
+                (<Typography color="textSecondary" key={i}>
+                  {`${key}: ${responseJSON[key]}`}
+                </Typography>)
+                : null
+              )}
+              
+              {_.map(_.keys(responseJSON.params), (key, i) =>
+                (<Typography color="textSecondary" key={i}>
+                  {`${key}: ${responseJSON.params[key]}`}
+                </Typography>)
+              )}
+
 
 
               { activeTab === 0 ?

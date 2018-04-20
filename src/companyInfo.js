@@ -3,6 +3,8 @@ import { withStyles } from 'material-ui/styles'
 import PropTypes from 'prop-types'
 import Typography from 'material-ui/Typography'
 import _ from 'lodash'
+import ExpansionPanel, { ExpansionPanelDetails, ExpansionPanelSummary} from 'material-ui/ExpansionPanel'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 // Styles should go here CSS should go here
 const styles = theme => ({
@@ -35,6 +37,19 @@ class CompanyInfo extends Component {
         )}
 
         <p> POSTS GO HERE </p>
+          {console.log(data.posts)}
+
+
+          {Object.values(data.posts).map((item,index) =>
+            <Typography color="textSecondary" key={index}>
+              {`Post ${index}: message: ${item.message} `}
+            </Typography>
+          )}
+
+
+
+
+
 
       </div>
     )
@@ -42,3 +57,12 @@ class CompanyInfo extends Component {
 }
 
 export default withStyles(styles)(CompanyInfo)
+
+//
+// {_.map(_.keys(data.posts), (key, i) =>
+//   key !== 'posts' && key !== 'name' ?
+//   (<Typography color="textSecondary" key={i}>
+//     {`${key}: ${data.posts[key]}`}
+//   </Typography>)
+//   : null
+// )}
