@@ -10,16 +10,16 @@ const styles = theme => ({
 
 class CompanyInfo extends Component {
 
-  static propTypes = {
-    data: PropTypes.object.isRequired
-  }
+  // static propTypes = {
+  //   // data: PropTypes.object.isRequired
+  // }
 
   render () {
     const { data } = this.props
 
     return (
       <div>
-        {data.name ?
+        {data && data.name ?
         (
           <Typography variant="display1" >
             {data.name}
