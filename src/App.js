@@ -3,7 +3,6 @@ import './App.css'
 import _ from 'lodash'
 import { withStyles } from 'material-ui/styles'
 import Grid from 'material-ui/Grid'
-import Paper from 'material-ui/Paper'
 import Tabs, { Tab } from 'material-ui/Tabs'
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
@@ -11,6 +10,7 @@ import Checkbox from 'material-ui/Checkbox'
 import { FormControlLabel } from 'material-ui/Form'
 import ResponseCard from './responseCard'
 import moment from 'moment'
+import Typography from 'material-ui/Typography'
 
 
 import 'typeface-roboto'
@@ -34,13 +34,16 @@ const styles = theme => ({
   },
   jsonPane: {
     textAlign: 'left',
+  },
+  margin: {
+    margin: theme.spacing.unit * 5
   }
 });
 
 class App extends Component {
 
   state = {
-    accessToken: 'EAACEdEose0cBAE80tzeyedA4bmyMql2W3HDDeRlhUiZC7jQ0OL5vIPAPeJCCWfee2cQBLmMVj7QCd4UkrPFh950BCg2BLggqSWPtWQBR0RZApb6z8NVCJsnCkcFEQLFQM1EFCcyFGqJHqSxy2X1UKZCplqHLzN3WGVaBOA5HsLE66w2x6Xjpyab6teZAB6uZCczOXdmGFmQZDZD',
+    accessToken: 'EAACEdEose0cBAK48rRfCprzZCCRbp6GaU7vtFolGg3XjKJlUAspXOlHsyRG6Moiv5V3YL0ck1yinq5GrczBTjtMkwQEATkrfAZCZAnp0tkPaUOv9fAHJNkap6MYNvjXnwfbpRBF2KQrS5GTW0ZCtNNZB9Hf05DEkZBb3PtLEnYDHaCmVRaMRGWZBUk59SNpAGYZD',
     companyName: 'facebook',
     pageStatistics: {
       'id': true,
@@ -135,21 +138,32 @@ class App extends Component {
     return (
       <Grid container className={classes.root} direction="row">
         <Grid item xs={12}>
-          <Grid container justify="center" direction="column">
-            <Grid item xs={12}>
-              <Paper>
-                <Tabs
-                  value={this.state.activeTab}
-                  onChange={this.updateTabs}
-                  indicatorColor="primary"
-                  textColor="primary"
-                  fullWidth
-                  centered
-                >
-                  <Tab label="Query a Company" />
-                  <Tab label="Query a Post" />
-                </Tabs>
-              </Paper>
+          <Grid container justify="center" alignItems="center" direction="column">
+            <Grid item xs={11}>
+              
+              <Typography variant="display2" gutterBottom color="secondary" className={classes.margin}>
+                Team Unnasigned API Web Client
+              </Typography>
+
+              <Typography gutterBottom variant="body1" color="primary" paragraph>
+                This application serves as an interface to our Facebook company information API.
+              </Typography>
+              <Typography gutterBottom variant="body1" color="primary" paragraph>
+                Before continuing, please <a href="https://documenter.getpostman.com/view/3928503/RVtyoBYu" rel="noopener noreferrer" target="_blank">visit the documentation</a> and ensure you have a <a href="https://developers.facebook.com/tools/explorer/" target="_blank" rel="noopener noreferrer">valid access token</a>
+              </Typography>
+
+
+              <Tabs
+                value={this.state.activeTab}
+                onChange={this.updateTabs}
+                indicatorColor="primary"
+                textColor="primary"
+                fullWidth
+                centered
+              >
+                <Tab label="Query a Company" />
+                <Tab label="Query a Post" />
+              </Tabs>
 
               <TextField
                 label="Access Token"
@@ -252,11 +266,13 @@ class App extends Component {
                 onClick={() => this.queryAPI()}>
                 Search
               </Button>
+
+              { responseJSON ? <ResponseCard responseJSON={responseJSON} activeTab={activeTab}/> : null }
+              
             </Grid>
           </Grid>
         </Grid>
 
-        { responseJSON ? <ResponseCard responseJSON={responseJSON} activeTab={activeTab}/> : null }
 
       </Grid>
     )
