@@ -53,22 +53,36 @@ class ResponseCard extends Component {
               </Typography>
             </CardContent>
           </Card>
-          <Card className={classes.card}>
-            <CardHeader
-            title="Data"
-            />
-            <CardContent>
 
-              { activeTab === 0 ?
-                <b><CompanyInfo data={data} /></b>
-                :
-                <PostInfo data={data} />
-              }
+          {responseJSON.status !== 200 ?
+            <Card className={classes.card}>
+              <CardContent>
+                <Typography variant="headline"  style={{color: 'red'}} noWrap>
+                  {responseJSON.status_text}
+                </Typography>
+              </CardContent>
+            </Card>
+          :
+          (
+            <Card className={classes.card}>
+              <CardHeader
+              title="Data"
+              />
+              <CardContent>
 
-            </CardContent>
-          </Card>
+                { activeTab === 0 ?
+                  <b><CompanyInfo data={data} /></b>
+                  :
+                  <PostInfo data={data} />
+                }
 
-          
+              </CardContent>
+            </Card>
+          )
+          }
+
+
+
         </Grid>
       </Grid>
     )
