@@ -11,6 +11,8 @@ import { FormControlLabel } from 'material-ui/Form'
 import ResponseCard from './responseCard'
 import moment from 'moment'
 import Typography from 'material-ui/Typography'
+import Dialog, { DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog'
+import { CircularProgress } from 'material-ui/Progress'
 
 
 import 'typeface-roboto'
@@ -25,6 +27,7 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
+    fontSize: '100px'
   },
   button: {
     margin: theme.spacing.unit,
@@ -36,7 +39,7 @@ const styles = theme => ({
     textAlign: 'left',
   },
   margin: {
-    margin: theme.spacing.unit * 5
+    margin: theme.spacing.unit * 4
   }
 });
 
@@ -67,7 +70,9 @@ class App extends Component {
     newCategory: '',
     activeTab: 0,
     start_date: "",
-    end_date: ""
+    end_date: "",
+    dialogOpen: false,
+    loading: false
   }
 
   handleChange = (event, shouldReload = false) => {
@@ -112,12 +117,14 @@ class App extends Component {
     if (start_date && end_date)
       apiBase += `&start_date=${start_date.match(/(\d{4})-(\d{2})-(\d{2})/)[0]}&end_date=${end_date.match(/(\d{4})-(\d{2})-(\d{2})/)[0]}`
 
+    this.setState({ loading: true })
+
     fetch(`https://unassigned-api.herokuapp.com/api/${apiBase}&access_token=${accessToken}`)
     .then((response) => {
       if (response.ok) {
         response.json().then(data => {
           console.log(data)
-          this.setState({ responseJSON: data })
+          this.setState({ responseJSON: data, loading: false })
         })
       }
     })
@@ -132,15 +139,15 @@ class App extends Component {
 
 
   render () {
-    const { responseJSON, pageStatistics, postStatistics, activeTab } = this.state
+    const { responseJSON, pageStatistics, postStatistics, activeTab, dialogOpen, loading } = this.state
     const { classes } = this.props
 
     return (
-      <Grid container className={classes.root} direction="row">
+      <Grid container className={classes.root} direction="column">
         <Grid item xs={12}>
-          <Grid container justify="center" alignItems="center" direction="column">
-            <Grid item xs={11}>
-              
+          <Grid container justify="center" direction="row">
+            <Grid item xs={8}>
+
               <Typography variant="display2" gutterBottom color="secondary" className={classes.margin}>
                 Team Unnasigned API Web Client
               </Typography>
@@ -149,9 +156,25 @@ class App extends Component {
                 This application serves as an interface to our Facebook company information API.
               </Typography>
               <Typography gutterBottom variant="body1" color="primary" paragraph>
-                Before continuing, please <a href="https://documenter.getpostman.com/view/3928503/RVtyoBYu" rel="noopener noreferrer" target="_blank">visit the documentation</a> and ensure you have a <a href="https://developers.facebook.com/tools/explorer/" target="_blank" rel="noopener noreferrer">valid access token</a>
+                Before continuing, please <a href="https://documenter.getpostman.com/view/3928503/RVtyoBYu" rel="noopener noreferrer" target="_blank">visit the documentation</a> and ensure you have a <a href="https://developers.facebook.com/tools/explorer/" target="_blank" rel="noopener noreferrer">valid access token.</a>
               </Typography>
+              <Button size="medium" variant="raised" color="secondary" onClick={() => this.setState({ dialogOpen: true })}>
+                Why do I have to manually enter an access token?
+              </Button>
 
+              <Dialog
+                  open={dialogOpen}
+                  onClose={() => this.setState({ dialogOpen: false })}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">{"Why access tokens need to be manually entered"}</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      FIll me in
+                    </DialogContentText>
+                  </DialogContent>
+                </Dialog>
 
               <Tabs
                 value={this.state.activeTab}
@@ -165,110 +188,126 @@ class App extends Component {
                 <Tab label="Query a Post" />
               </Tabs>
 
-              <TextField
-                label="Access Token"
-                name='accessToken'
-                className={classes.textField}
-                value={this.state.accessToken}
-                onChange={this.handleChange}
-                margin="normal"
-              />
+              <form onSubmit={(e) =>{
+                this.queryAPI()
+                e.preventDefault()
+              }}>
 
-              {activeTab === 0 ?
-                (
-                  <div>
-                    <TextField
-                      label="Company Name"
-                      name='companyName'
-                      className={classes.textField}
-                      value={this.state.companyName}
-                      onChange={this.handleChange}
-                      margin="normal"
-                    />
+                <TextField
+                  label="Access Token"
+                  name='accessToken'
+                  className={classes.textField}
+                  value={this.state.accessToken}
+                  onChange={this.handleChange}
+                  margin="normal"
+                  required
+                  style={{width: '600px'}}
+                />
 
-                    {/* <TextField
-                      label="Start Date"
-                      type="date"
-                      name="start_date"
-                      className={classes.textField}
-                      value={this.state.start_date}
-                      onChange={(e) => this.handleChange(e, false)}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-
-                    <TextField
-                      label="End Date"
-                      type="date"
-                      name="end_date"
-                      className={classes.textField}
-                      onChange={(e) => this.handleChange(e, false)}
-                      value={this.state.end_date}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    /> */}
-
-                    <br/>
-
-                    {_.map(_.keys(pageStatistics), (stat, i) =>
-                      <FormControlLabel
-                        key={i}
-                        control={
-                          <Checkbox
-                            checked={pageStatistics[stat]}
-                            name={stat}
-                            onChange={(e) => this.handleChange(e, false)}
-                          />
-                        }
-                        label={stat}
+                {activeTab === 0 ?
+                  (
+                    <div>
+                      <TextField
+                        label="Company Name"
+                        name='companyName'
+                        className={classes.textField}
+                        value={this.state.companyName}
+                        onChange={this.handleChange}
+                        margin="normal"
+                        required
+                        style={{width: '300px'}}
                       />
-                    )}
 
-                  </div>
-                )
-                :
-                (
-                  <div>
-                    <TextField
-                      label="Post ID"
-                      name='postID'
-                      className={classes.textField}
-                      value={this.state.postID}
-                      onChange={this.handleChange}
-                      margin="normal"
-                    />
-
-                    <br/>
-
-                    {_.map(_.keys(postStatistics), (stat, i) =>
-                      <FormControlLabel
-                        key={i}
-                        control={
-                          <Checkbox
-                            checked={postStatistics[stat]}
-                            name={stat}
-                            onChange={(e) => this.handleChange(e, false)}
-                          />
-                        }
-                        label={stat}
+                      {/* <TextField
+                        label="Start Date"
+                        type="date"
+                        name="start_date"
+                        className={classes.textField}
+                        value={this.state.start_date}
+                        onChange={(e) => this.handleChange(e, false)}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                       />
-                    )}
 
-                  </div>
-                )
-              }
-              <Button
-                variant="raised"
-                color="primary"
-                className={classes.button}
-                onClick={() => this.queryAPI()}>
-                Search
-              </Button>
+                      <TextField
+                        label="End Date"
+                        type="date"
+                        name="end_date"
+                        className={classes.textField}
+                        onChange={(e) => this.handleChange(e, false)}
+                        value={this.state.end_date}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      /> */}
 
-              { responseJSON ? <ResponseCard responseJSON={responseJSON} activeTab={activeTab}/> : null }
-              
+                      <br/>
+
+                      {_.map(_.keys(pageStatistics), (stat, i) =>
+                        <FormControlLabel
+                          key={i}
+                          control={
+                            <Checkbox
+                              checked={pageStatistics[stat]}
+                              name={stat}
+                              onChange={(e) => this.handleChange(e, false)}
+                            />
+                          }
+                          label={stat}
+                        />
+                      )}
+
+                    </div>
+                  )
+                  :
+                  (
+                    <div>
+                      <TextField
+                        label="Post ID"
+                        name='postID'
+                        className={classes.textField}
+                        value={this.state.postID}
+                        onChange={this.handleChange}
+                        margin="normal"
+                        required
+                        style={{width: '300px'}}
+                      />
+
+                      <br/>
+
+                      {_.map(_.keys(postStatistics), (stat, i) =>
+                        <FormControlLabel
+                          key={i}
+                          control={
+                            <Checkbox
+                              checked={postStatistics[stat]}
+                              name={stat}
+                              onChange={(e) => this.handleChange(e, false)}
+                            />
+                          }
+                          label={stat}
+                        />
+                      )}
+
+                    </div>
+                  )
+                }
+                <Button
+                  type="sumbit"
+                  variant="raised"
+                  color="primary"
+                  className={classes.button}
+                  >
+                  Search
+                </Button>
+
+              </form>
+
+              { loading ? <CircularProgress className={classes.margin} size={70} color="secondary" /> :
+                responseJSON ? <ResponseCard responseJSON={responseJSON} activeTab={activeTab}/> : null }
+
+
             </Grid>
           </Grid>
         </Grid>
