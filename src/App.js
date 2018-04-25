@@ -75,6 +75,14 @@ class App extends Component {
     loading: false
   }
 
+  disableButton = () => {
+    if (this.state.activeTab === 0) {
+      return _.filter(this.state.pageStatistics).length > 0 ? false : true
+    } else {
+      return _.filter(this.state.postStatistics).length > 0 ? false : true
+    }
+  }
+
   handleChange = (event, shouldReload = false) => {
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : target.value
@@ -298,6 +306,7 @@ class App extends Component {
                   variant="raised"
                   color="primary"
                   className={classes.button}
+                  disabled={this.disableButton()}
                   >
                   Search
                 </Button>
