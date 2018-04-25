@@ -125,9 +125,8 @@ class App extends Component {
     if (start_date && end_date)
       apiBase += `&start_date=${start_date.match(/(\d{4})-(\d{2})-(\d{2})/)[0]}&end_date=${end_date.match(/(\d{4})-(\d{2})-(\d{2})/)[0]}`
 
+    fetch(`https://unassigned-api.herokuapp.com/api/v3/${apiBase}&access_token=${accessToken}`) /* TODO: remove v3 later */
     this.setState({ loading: true })
-
-    fetch(`https://unassigned-api.herokuapp.com/api/${apiBase}&access_token=${accessToken}`)
     .then((response) => {
       if (response.ok) {
         response.json().then(data => {
