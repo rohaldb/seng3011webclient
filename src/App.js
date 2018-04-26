@@ -43,11 +43,13 @@ const styles = theme => ({
   }
 });
 
+const prod = process.env.NODE_ENV === 'production'
+
 class App extends Component {
 
   state = {
-    accessToken: 'EAACEdEose0cBAKhPDpK7r8yQEeIGKJZC3Msg22UbsvrsfCYj1NzWevtqis8uyw3tjGzMecJQNL2IYuSxFaRnpfA72X7VbTbT2o2L5hKFHqchxzuUDwYKjGoqYeyCDpFp0yt7Yt1g59HrugfL6zFlZBkQFa4LUMVvDevftcL2oAqj4UoCzGnyhJqEgdD0wZD',
-    companyName: 'facebook',
+    accessToken: prod ? '' : 'EAACEdEose0cBAKhPDpK7r8yQEeIGKJZC3Msg22UbsvrsfCYj1NzWevtqis8uyw3tjGzMecJQNL2IYuSxFaRnpfA72X7VbTbT2o2L5hKFHqchxzuUDwYKjGoqYeyCDpFp0yt7Yt1g59HrugfL6zFlZBkQFa4LUMVvDevftcL2oAqj4UoCzGnyhJqEgdD0wZD',
+    companyName: prod ? '' : 'facebook',
     pageStatistics: {
       'id': true,
       'name': true,
@@ -65,7 +67,7 @@ class App extends Component {
       'likes': true,
       'comments': true,
     },
-    postID: '20531316728_10157293947771729',
+    postID: prod ? '' : '20531316728_10157293947771729',
     value: 0,
     newCategory: '',
     activeTab: 0,
