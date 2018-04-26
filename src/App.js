@@ -124,8 +124,15 @@ class App extends Component {
 
     let apiBase = searchPage ? `${companyName}?statistics=${pageStatistics}` : `post/${postID}?statistics=${postStatistics}`
 
-    if (start_date && end_date)
-      apiBase += `&start_date=${start_date.match(/(\d{4})-(\d{2})-(\d{2})/)[0]}&end_date=${end_date.match(/(\d{4})-(\d{2})-(\d{2})/)[0]}`
+    var regExp = /(\d{4})-(\d{2})-(\d{2})/
+
+    if (start_date && end_date && (parseInt(end_date.replace(regExp, "$1$2$3"),10) > parseInt(start_date.replace(regExp, "$1$2$3"),10))){
+      apiBase += `&start_date=${start_date.match(regExp)[0]}&end_date=${end_date.match(regExp)[0]}`
+      //console.log(apiBase)
+    }else{
+      //pls someone handle the fact that both dates werent entered or that end_Date > start_date i.e. invalid dates/date range
+    }
+
 
     this.setState({ loading: true })
     fetch(`https://unassigned-api.herokuapp.com/api/${apiBase}&access_token=${accessToken}`)
