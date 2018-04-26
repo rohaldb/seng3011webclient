@@ -46,7 +46,7 @@ const styles = theme => ({
 class App extends Component {
 
   state = {
-    accessToken: 'EAACEdEose0cBAK48rRfCprzZCCRbp6GaU7vtFolGg3XjKJlUAspXOlHsyRG6Moiv5V3YL0ck1yinq5GrczBTjtMkwQEATkrfAZCZAnp0tkPaUOv9fAHJNkap6MYNvjXnwfbpRBF2KQrS5GTW0ZCtNNZB9Hf05DEkZBb3PtLEnYDHaCmVRaMRGWZBUk59SNpAGYZD',
+    accessToken: 'EAACEdEose0cBAKhPDpK7r8yQEeIGKJZC3Msg22UbsvrsfCYj1NzWevtqis8uyw3tjGzMecJQNL2IYuSxFaRnpfA72X7VbTbT2o2L5hKFHqchxzuUDwYKjGoqYeyCDpFp0yt7Yt1g59HrugfL6zFlZBkQFa4LUMVvDevftcL2oAqj4UoCzGnyhJqEgdD0wZD',
     companyName: 'facebook',
     pageStatistics: {
       'id': true,
@@ -125,8 +125,8 @@ class App extends Component {
     if (start_date && end_date)
       apiBase += `&start_date=${start_date.match(/(\d{4})-(\d{2})-(\d{2})/)[0]}&end_date=${end_date.match(/(\d{4})-(\d{2})-(\d{2})/)[0]}`
 
-    fetch(`https://unassigned-api.herokuapp.com/api/v3/${apiBase}&access_token=${accessToken}`) /* TODO: remove v3 later */
     this.setState({ loading: true })
+    fetch(`https://unassigned-api.herokuapp.com/api/v3/${apiBase}&access_token=${accessToken}`) /* TODO: remove v3 later */
     .then((response) => {
       if (response.ok) {
         response.json().then(data => {
@@ -196,8 +196,8 @@ class App extends Component {
               </Tabs>
 
               <form onSubmit={(e) =>{
-                this.queryAPI()
                 e.preventDefault()
+                this.queryAPI()
               }}>
 
                 <TextField
@@ -225,7 +225,7 @@ class App extends Component {
                         style={{width: '300px'}}
                       />
 
-                      {/* <TextField
+                      <TextField
                         label="Start Date"
                         type="date"
                         name="start_date"
@@ -247,7 +247,7 @@ class App extends Component {
                         InputLabelProps={{
                           shrink: true,
                         }}
-                      /> */}
+                      />
 
                       <br/>
 
