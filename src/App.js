@@ -180,7 +180,7 @@ class App extends Component {
                   <DialogTitle id="alert-dialog-title">{"Why access tokens need to be manually entered"}</DialogTitle>
                   <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                      FIll me in
+                      Following the recent Cambridge Analytica scandal, Facebook has prevented new users from generating permanent API keys. As a temporary solution, we request that you generate a user access token thorugh the <a href="https://developers.facebook.com/tools/explorer/" target="_blank" rel="noopener noreferrer">tool explorer</a> and use it to run the client.
                     </DialogContentText>
                   </DialogContent>
                 </Dialog>
