@@ -5,7 +5,6 @@ import { withStyles } from 'material-ui/styles'
 import Grid from 'material-ui/Grid'
 import Tabs, { Tab } from 'material-ui/Tabs'
 import Button from 'material-ui/Button'
-import Autosuggest from 'react-autosuggest';
 import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
 import { FormControlLabel } from 'material-ui/Form'
@@ -45,12 +44,13 @@ const styles = theme => ({
   }
 });
 
+const prod = process.env.NODE_ENV === 'production'
+
 class App extends Component {
 
   state = {
-    accessToken: 'EAACEdEose0cBABmNDdEv7s4Uh8I8vLX1m4zZBWbouZChH8NuSaZAUQ5HM92rnX7ZAZBw8eWudcpIuIJmZA4VCbeN6cKjwxh7hvkaKyDjzE1GVN0wPPenEJf9nZBvL64oxZAItFQXpo2pZBeUiAq9UixrVKSXwBr4NM20GWzjcj66kjyKglIU248up6H8ucmgsqzgZD',
-    companyName: 'facebook',
-    fullCompanyName: 'Facebook',
+    accessToken: prod ? '' : 'EAACEdEose0cBANiZA76QOapB5fmgY9T47aRLPrSttFW4kJZC3oQG2vzWIZAcDStPg7uuimiaTD1EMxavBVw7QY64dSaAvlbxnkNBL5SpI178NsKilmCWkYIg9A2q5VZCyD54A0GaLZCebe0AoObFwk000pYVAXVvW7DioLO19fBkEpYJHGbtQoRIRCdoPZBbfu91QhgK09vgZDZD',
+    companyName: prod ? '' : 'facebook',
     pageStatistics: {
       'id': true,
       'name': true,
@@ -68,7 +68,7 @@ class App extends Component {
       'likes': true,
       'comments': true,
     },
-    postID: '20531316728_10157293947771729',
+    postID: prod ? '' : '20531316728_10157293947771729',
     value: 0,
     newCategory: '',
     activeTab: 0,
@@ -93,7 +93,6 @@ class App extends Component {
       this.setState({ selectedOption });
       if (selectedOption.label) {
           this.state.companyName = selectedOption.value
-          // this.state.fullCompanyName = selectedOption.value
       } else {
           this.state.companyName = 'facebook'
       }
@@ -127,35 +126,34 @@ class App extends Component {
   queryAPI() {
     const { accessToken, companyName, postID, activeTab } = this.state
     const searchPage = activeTab === 0 ? true : false
+    if (companyName) {
+        //turn date to ISO
+        const start_date = (new moment(this.state.start_date)).seconds(0).milliseconds(0).toISOString()
+        const end_date = (new moment(this.state.end_date)).seconds(0).milliseconds(0).toISOString()
 
-    //turn date to ISO
-    const start_date = (new moment(this.state.start_date)).seconds(0).milliseconds(0).toISOString()
-    const end_date = (new moment(this.state.end_date)).seconds(0).milliseconds(0).toISOString()
+        // pull out statistics from object
+        const pageStatistics = _.keys(_.pickBy(this.state.pageStatistics, (v, k) => v === true)).join(",")
+        const postStatistics = _.keys(_.pickBy(this.state.postStatistics, (v, k) => v === true)).join(",")
 
-    // pull out statistics from object
-    const pageStatistics = _.keys(_.pickBy(this.state.pageStatistics, (v, k) => v === true)).join(",")
-    const postStatistics = _.keys(_.pickBy(this.state.postStatistics, (v, k) => v === true)).join(",")
+        let apiBase = searchPage ? `${companyName}?statistics=${pageStatistics}` : `post/${postID}?statistics=${postStatistics}`
 
-    let apiBase = searchPage ? `${companyName}?statistics=${pageStatistics}` : `post/${postID}?statistics=${postStatistics}`
-
-    if (start_date && end_date) {
-        if (start_date < end_date) {
-            apiBase += `&start_date=${start_date.match(/(\d{4})-(\d{2})-(\d{2})/)[0]}&end_date=${end_date.match(/(\d{4})-(\d{2})-(\d{2})/)[0]}`
-        } else {
-
+        if (start_date && end_date) {
+            if (start_date < end_date) {
+                apiBase += `&start_date=${start_date.match(/(\d{4})-(\d{2})-(\d{2})/)[0]}&end_date=${end_date.match(/(\d{4})-(\d{2})-(\d{2})/)[0]}`
+            }
         }
-    }
-    this.setState({ loading: true })
-    fetch(`https://unassigned-api.herokuapp.com/api/v3/${apiBase}&access_token=${accessToken}`) /* TODO: remove v3 later */
-    .then((response) => {
-      if (response.ok) {
-        response.json().then(data => {
-          console.log(data)
-          this.setState({ responseJSON: data, loading: false })
+        this.setState({ loading: true })
+        fetch(`https://unassigned-api.herokuapp.com/api/v3/${apiBase}&access_token=${accessToken}`) /* TODO: remove v3 later */
+        .then((response) => {
+          if (response.ok) {
+            response.json().then(data => {
+              console.log(data)
+              this.setState({ responseJSON: data, loading: false })
+            })
+          }
         })
-      }
-    })
-    .catch(error => console.error(error))
+        .catch(error => console.error(error))
+    }
   }
 
   updateTabs = (event, value) => {
@@ -236,10 +234,8 @@ class App extends Component {
                     <div>
 
                         <Select
-                            label="Company Name"
+                            placeholder="Company Name"
                             name="companyName"
-                            // value={this.state.companyName.label}
-                            fullCompanyName
                             value={this.state.companyName.label}
                             onChange={this.handleChangeSelect}
                             options={this.state.companiesList}
