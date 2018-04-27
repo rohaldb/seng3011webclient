@@ -198,10 +198,10 @@ class App extends Component {
                   aria-labelledby="alert-dialog-title"
                   aria-describedby="alert-dialog-description"
                 >
-                  <DialogTitle id="alert-dialog-title">{"Why access tokens need to be manually entered"}</DialogTitle>
+                  <DialogTitle id="alert-dialog-title">{"Why access tokens need to be entered manually"}</DialogTitle>
                   <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                      Following the recent Cambridge Analytica scandal, Facebook has prevented new users from generating permanent API keys. As a temporary solution, we request that you generate a user access token thorugh the <a href="https://developers.facebook.com/tools/explorer/" target="_blank" rel="noopener noreferrer">tool explorer</a> and use it to run the client.
+                      Following the recent Cambridge Analytica scandal, Facebook has prevented new users from generating permanent API keys. As a temporary solution, we request that you generate a user access token thorugh the <a href="https://developers.facebook.com/tools/explorer/" target="_blank" rel="noopener noreferrer">tool explorer</a> and use it to run the client. For more information see <a href="https://developers.facebook.com/status/issues/205942813488872/" target="_blank" rel="noopener noreferrer">this post by facebook</a>.
                     </DialogContentText>
                   </DialogContent>
                 </Dialog>
