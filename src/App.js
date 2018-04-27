@@ -49,8 +49,9 @@ const prod = process.env.NODE_ENV === 'production'
 class App extends Component {
 
   state = {
-    accessToken: prod ? '' : 'EAACEdEose0cBAPn0tKfeakNdQSQPE88foNKhrokxYuDFdd1Yrpq6E1ZC9cGUNs6T5ZAbvdybmsNlaZAj1OMQrtd2lJJBVhbTOAfJT6lLmDmKmvI37CU69NpRhO2aTUZCuZBhfSLJbslQ6bMYgn1amR6xpgXoJ3B3ck7cJZCtbtxV0lvJp1MNR9dH7m3mpz9v0ZD',
-    companyName: prod ? '' : '',
+    accessToken: prod ? '' : 'EAACEdEose0cBAINRZAN87F1dC7vLSCc7EnVDE7fZBWRvwWtlVJQe9GZBABTcfLTFmq8gAttPKmGld78SZAz1J9g8We6xcBamtgWGbl6jHXRIkG0ZBEBZCIlTiZCsUC1b2LtMeFi6ACirvYgBHAKbFXT2dMKlvbojcxPyXXZAIy5Bg6OZAqkTveO9bQu2gO1qjKm4ZD',
+    companyName: prod ? '' : 'facebook',
+
     pageStatistics: {
       'id': true,
       'name': true,
@@ -235,18 +236,17 @@ class App extends Component {
                 {activeTab === 0 ?
                   (
                     <div>
-                    <Grid container justify="center" direction="row">
+                      <Grid container justify="center" direction="row">
                         <Grid item xs={6} style={{padding: '20px'}}>
-                            <Select
-                            placeholder="Company Name"
-                            name="companyName"
-                            value={this.state.companyName.label}
-                            onChange={this.handleChangeSelect}
-                            // options={this.state.companiesList}
-                            options={Companies}
-                        />
+                          <Select
+                              placeholder="Company Name"
+                              name="companyName"
+                              value={this.state.companyName.label}
+                              onChange={this.handleChangeSelect}
+                              options={Companies}
+                          />
                         </Grid>
-                    </Grid>
+                      </Grid>
 
                       <TextField
                         label="Start Date"
