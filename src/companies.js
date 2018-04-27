@@ -1,5 +1,4 @@
-{
-    "Companies": [
+const Companies = [
         {"label": "3PL-3P LEARNING LIMITED", "value": "3plearning"},
         {"label": "AGL-AGL ENERGY LIMITED", "value": "182118848546753"},
         {"label": "AIZ-AIR NEW ZEALAND LIMITED", "value": "airnewzealand"},
@@ -91,4 +90,4 @@
         {"label": "TTM-Tata Motors Ltd", "value": "TataMotorsGroup"},
         {"label": "TWTR-Twitter, Inc", "value": "twitterinc"}
     ]
-}
+export default Companies

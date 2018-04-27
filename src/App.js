@@ -10,7 +10,7 @@ import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
 import { FormControlLabel } from 'material-ui/Form'
 import Select from 'react-select';
-import Companies from './companies.json';
+import Companies from './companies.js';
 import ResponseCard from './responseCard'
 import moment from 'moment'
 import Typography from 'material-ui/Typography'
@@ -77,97 +77,7 @@ class App extends Component {
     dialogOpen: false,
     loading: false,
     selectedOption: '',
-    companiesList: [
-        {"label": "3PL-3P LEARNING LIMITED", "value": "3plearning"},
-        {"label": "AGL-AGL ENERGY LIMITED", "value": "182118848546753"},
-        {"label": "AIZ-AIR NEW ZEALAND LIMITED", "value": "airnewzealand"},
-        {"label": "AMP-AMP LIMITED", "value": "379344338814828"},
-        {"label": "AST-AUSNET SERVICES LIMITED", "value": "512280309135240"},
-        {"label": "ANZ-AUSTRALIA AND NEW ZEALAND BANKING GROUP LIMITED", "value": "208091002641679"},
-        {"label": "AOG-AVEO GROUP", "value": "AveoRetirement"},
-        {"label": "BLX-BEACON LIGHTING GROUP LIMITED", "value": "BeaconLighting"},
-        {"label": "BAL-BELLAMY'S AUSTRALIA LIMITED", "value": "116365719228"},
-        {"label": "BHP-BHP BILLITON LIMITED", "value": "BHPQLDNSW"},
-        {"label": "BBG-BILLABONG INTERNATIONAL LIMITED", "value": "Billabong"},
-        {"label": "BKL-BLACKMORES LIMITED", "value": "110734276784"},
-        {"label": "CTX-CALTEX AUSTRALIA LIMITED", "value": "177082569311397"},
-        {"label": "CZZ-CAPILANO HONEY LIMITED", "value": "CapilanoHoney"},
-        {"label": "CCL-COCA-COLA AMATIL LIMITED", "value": "40796308305"},
-        {"label": "CBA-COMMONWEALTH BANK OF AUSTRALIA", "value": "120184674661521"},
-        {"label": "CPU-COMPUTERSHARE LIMITED", "value": "191290497560822"},
-        {"label": "DTL-DATA#3 LIMITE", "value": "Data3Limited"},
-        {"label": "DXS-DEXUS", "value": "156410154898673"},
-        {"label": "DMP-DOMINO'S PIZZA ENTERPRISES LIMITED", "value": "53320451411"},
-        {"label": "FXJ-FAIRFAX MEDIA LIMITED", "value": "1511376765749432"},
-        {"label": "GPX-GRAPHEX MINING LIMITED", "value": "graphexmininglimited"},
-        {"label": "HVN-HARVEY NORMAN HOLDINGS LIMITED", "value": "177019836023"},
-        {"label": "HCS-HYUNDAI CAPITAL SERVICES, INC", "value": "HyundaiAustralia"},
-        {"label": "IPL-INCITEC PIVOT LIMITED", "value": "102228960384996"},
-        {"label": "ISU-ISELECT LIMITED", "value": "iselect"},
-        {"label": "JAY-JAYRIDE GROUP LIMITED", "value": "Jayride"},
-        {"label": "JBH-JB HI-FI LIMITED", "value": "JBHiFi"},
-        {"label": "KGN-KOGAN.COM LTD", "value": "Kogan"},
-        {"label": "MQG-MACQUARIE GROUP LIMITED", "value": "249952428450142"},
-        {"label": "MPL-MEDIBANK PRIVATE LIMITED", "value": "337166469633637"},
-        {"label": "NAN-NANOSONICS LIMITED", "value": "394160947626328"},
-        {"label": "NAB-NATIONAL AUSTRALIA BANK LIMITED", "value": "174238599281322"},
-        {"label": "NVT-NAVITAS LIMITED", "value": "294395941429"},
-        {"label": "NCK-NICK SCALI LIMITED", "value": "NickScaliFurniture"},
-        {"label": "OZL-OZ MINERALS LIMITED", "value": "1489754491319366"},
-        {"label": "PVA-PSIVIDA CORP", "value": "pSividaCorp"},
-        {"label": "QAN-QANTAS AIRWAYS LIMITED", "value": "8662337685"},
-        {"label": "QBE-QBE INSURANCE GROUP LIMITED", "value": "1562214844057141"},
-        {"label": "RCL-READCLOUD LIMITED", "value": "readcloud"},
-        {"label": "RNT-RENT.COM.AU LIMITED", "value": "rent.com.au"},
-        {"label": "RMD-RESMED INC", "value": "579199552279600"},
-        {"label": "RIO-RIO TINTO LIMITED", "value": "1452904361600284"},
-        {"label": "STO-SANTOS LIMITED", "value": "379599458837842"},
-        {"label": "SEK-SEEK LIMITED", "value": "8286673812"},
-        {"label": "SRS-SPICERS LIMITED", "value": "spicersaus"},
-        {"label": "SDF-STEADFAST GROUP LIMITED", "value": "1834735733421103"},
-        {"label": "SUN-SUNCORP GROUP LIMITED", "value": "507120152671521"},
-        {"label": "SYD-SYDNEY AIRPORT", "value": "296830467022294"},
-        {"label": "TGR-TASSAL GROUP LIMITED", "value": "177765718926129"},
-        {"label": "TNE-TECHNOLOGY ONE LIMITED", "value": "759547527498506"},
-        {"label": "TLS-TELSTRA CORPORATION LIMITED", "value": "9322764314"},
-        {"label": "A2M-THE A2 MILK COMPANY LIMITED", "value": "93657569770"},
-        {"label": "TRS-THE REJECT SHOP LIMITED", "value": "rejectshop"},
-        {"label": "TPM-TPG TELECOM LIMITED", "value": "TPGTelecom"},
-        {"label": "WEB-WEBJET LIMITED", "value": "172590862796993"},
-        {"label": "WFD-WESTFIELD CORPORATION", "value": "Westfield"},
-        {"label": "WBC-WESTPAC BANKING CORPORATION", "value": "102801482742"},
-        {"label": "WPL-WOODSIDE PETROLEUM LIMITED", "value": "woodsideenergy"},
-        {"label": "WOW-WOOLWORTHS GROUP LIMITED", "value": "147632815308858"},
-        {"label": "WOR-WORLEYPARSONS LIMITED", "value": "111461155538235"},
-        {"label": "XRO-XERO LIMITED", "value": "119615178068730"},
-        {"label": "AMD-Advanced Micro Devices, Inc", "value": "AMDAUNZ"},
-        {"label": "GOOG-Alphabet Google Inc", "value": "google"},
-        {"label": "GOOGL-Alphabet Google Inc", "value": "google"},
-        {"label": "AAPL-Apple Inc", "value": "apple"},
-        {"label": "BIDU-Baidu, Inc", "value": "Baiduers"},
-        {"label": "CSCO-Cisco Systems, Inc", "value": "Cisco"},
-        {"label": "COST-Costco Wholesale Corporation", "value": "costco"},
-        {"label": "FB-Facebook, Inc", "value": "facebook"},
-        {"label": "INTC-Intel Corporation", "value": "intel"},
-        {"label": "JBLU-JetBlue Airways Corporation", "value": "jetblue"},
-        {"label": "MSFT-Microsoft Corporation", "value": "microsoft"},
-        {"label": "NVDA-NVIDIA Corporation", "value": "nvidia"},
-        {"label": "QCOM-QUALCOMM Incorporated", "value": "Qualcomm"},
-        {"label": "TXN-Texas Instruments Incorporated", "value": "TIEurope"},
-        {"label": "XOMA-XOMA Corporation", "value": "exxonmobil"},
-        {"label": "ACN-Accenture plc", "value": "accenture"},
-        {"label": "DVMT-Dell Technologies Inc", "value": "Dell"},
-        {"label": "HPE-Hewlett Paclabelrd Enterprise Company", "value": "HewlettPaclabelrdEnterprise"},
-        {"label": "IBM-International Business Machines Corporation", "value": "IBMAustralia"},
-        {"label": "NKE-Nike, Inc", "value": "nike"},
-        {"label": "ORCL-Oracle Corporation", "value": "Oracle"},
-        {"label": "RMD-ResMed Inc", "value": "579199552279600"},
-        {"label": "RDS.A-Royal Dutch Shell PLC", "value": "shell"},
-        {"label": "RDS.B-Royal Dutch Shell PLC", "value": "shell"},
-        {"label": "SAP-SAP SE", "value": "sapanz"},
-        {"label": "SKM-SK Telecom Co., Ltd", "value": "sktworld"},
-        {"label": "TTM-Tata Motors Ltd", "value": "TataMotorsGroup"},
-        {"label": "TWTR-Twitter, Inc", "value": "twitterinc"}]
+    companiesList: Companies
   }
 
 
@@ -217,7 +127,7 @@ class App extends Component {
   queryAPI() {
     const { accessToken, companyName, postID, activeTab } = this.state
     const searchPage = activeTab === 0 ? true : false
-    
+
     //turn date to ISO
     const start_date = (new moment(this.state.start_date)).seconds(0).milliseconds(0).toISOString()
     const end_date = (new moment(this.state.end_date)).seconds(0).milliseconds(0).toISOString()
