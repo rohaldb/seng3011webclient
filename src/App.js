@@ -196,13 +196,11 @@ class App extends Component {
 
     let newState
     if (target.type === 'checkbox') {
-        console.log("in checkbox")
         const statisticType = this.state.activeTab === 0 ? "pageStatistics" : "postStatistics"
         newState = {
           [statisticType]: { ...this.state[statisticType], [name]: value}
         }
     } else {
-        console.log("in name")
         newState = { [name]: value }
     }
     //need to pass callback function to load API when set state is finished since it is asynch
@@ -219,8 +217,7 @@ class App extends Component {
   queryAPI() {
     const { accessToken, companyName, postID, activeTab } = this.state
     const searchPage = activeTab === 0 ? true : false
-    // companyName = this.companyName.label
-    console.log(companyName)
+    
     //turn date to ISO
     const start_date = (new moment(this.state.start_date)).seconds(0).milliseconds(0).toISOString()
     const end_date = (new moment(this.state.end_date)).seconds(0).milliseconds(0).toISOString()
