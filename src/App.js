@@ -182,7 +182,6 @@ class App extends Component {
   }
 
   handleChangeSelect = (selectedOption) => {
-      console.log(Companies)
       this.setState({ selectedOption });
       if (selectedOption.label) {
           this.state.companyName = selectedOption.value
