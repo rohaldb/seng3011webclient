@@ -49,7 +49,7 @@ const prod = process.env.NODE_ENV === 'production'
 class App extends Component {
 
   state = {
-    accessToken: prod ? '' : 'EAACEdEose0cBAKhPDpK7r8yQEeIGKJZC3Msg22UbsvrsfCYj1NzWevtqis8uyw3tjGzMecJQNL2IYuSxFaRnpfA72X7VbTbT2o2L5hKFHqchxzuUDwYKjGoqYeyCDpFp0yt7Yt1g59HrugfL6zFlZBkQFa4LUMVvDevftcL2oAqj4UoCzGnyhJqEgdD0wZD',
+    accessToken: prod ? '' : 'EAACEdEose0cBANCYgrUK2X3O8OTouhf1vrE6jcZCs3712C6crGFVuS598Kzlt73cRysHtbZBoKtlu7lLAXzyxxExZBVfSSo6eAaF2sM1hMCoZAshpo6ht5Q6ETq8mNrNSXuTgqdGEUbZAZBZBnR2JU8VfM2v9b6S0CFU0CwDLEvXJWc1PcMPjkJflFsqUm2knjpr2zkfq6M3AZDZD',
     companyName: '',
     pageStatistics: {
       'id': true,
@@ -83,8 +83,7 @@ class App extends Component {
 
   disableButton = () => {
     if (this.state.activeTab === 0) {
-      const stats  = _.filter(this.state.pageStatistics).length > 0 ? false : true
-      return this.state.companyName === '' || stats
+      return _.filter(this.state.pageStatistics).length > 0 ? false : true
     } else {
       return _.filter(this.state.postStatistics).length > 0 ? false : true
     }
