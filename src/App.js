@@ -93,13 +93,9 @@ class App extends Component {
   handleChangeSelect = (selectedOption) => {
       this.setState({ selectedOption });
       if (selectedOption.label) {
-
           this.setState({ companyName: selectedOption.value })
-          // this.state.companyName = selectedOption.value
-          console.log(selectedOption.value)
       } else {
           this.setState({ companyName: '' })
-          // this.state.companyName = ''
       }
   }
 
@@ -242,14 +238,17 @@ class App extends Component {
                 {activeTab === 0 ?
                   (
                     <div>
-
-                        <Select
-                            placeholder="Company Name"
-                            name="companyName"
-                            value={this.state.companyName.label}
-                            onChange={this.handleChangeSelect}
-                            options={this.state.companiesList}
-                        />
+                      <Grid container justify="center" direction="row">
+                        <Grid item xs={6} style={{padding: '20px'}}>
+                          <Select
+                              placeholder="Company Name"
+                              name="companyName"
+                              value={this.state.companyName.label}
+                              onChange={this.handleChangeSelect}
+                              options={this.state.companiesList}
+                          />
+                        </Grid>
+                      </Grid>
 
                       <TextField
                         label="Start Date"
