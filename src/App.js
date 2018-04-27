@@ -77,8 +77,6 @@ class App extends Component {
     dialogOpen: false,
     loading: false,
     selectedOption: '',
-    // companiesList: Companies
-    // companiesList: [{ value: 'Facebook', label: 'facebook' }, { value: 'Woolworths', label: 'woolworths' }, { value: 'Google', label: 'google' }],
     companiesList: [
         {"label": "3PL-3P LEARNING LIMITED", "value": "3plearning"},
         {"label": "AGL-AGL ENERGY LIMITED", "value": "182118848546753"},
