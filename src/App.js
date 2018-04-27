@@ -49,8 +49,9 @@ const prod = process.env.NODE_ENV === 'production'
 class App extends Component {
 
   state = {
-    accessToken: prod ? '' : 'EAACEdEose0cBADfuj0e3TjKa9pTurLvWhpOaGfUpVU4wJrE6LGPJasDpkYnidTmhZA2MJEL1F8o2SKrRv5IMe2vLUvnVKrePItwFSsMmZAZCMhcfIPpu4CnxemfhWeUGrjwS41Us86OQsH06XpSYYMZBssHogYzl1ffqCAuS6fCKOn804jJn2wh3gUh5EmMZD',
-    companyName: prod ? '' : '',
+    accessToken: prod ? '' : 'EAACEdEose0cBAKhPDpK7r8yQEeIGKJZC3Msg22UbsvrsfCYj1NzWevtqis8uyw3tjGzMecJQNL2IYuSxFaRnpfA72X7VbTbT2o2L5hKFHqchxzuUDwYKjGoqYeyCDpFp0yt7Yt1g59HrugfL6zFlZBkQFa4LUMVvDevftcL2oAqj4UoCzGnyhJqEgdD0wZD',
+    companyName: prod ? '' : 'facebook',
+
     pageStatistics: {
       'id': true,
       'name': true,
