@@ -49,8 +49,8 @@ const prod = process.env.NODE_ENV === 'production'
 class App extends Component {
 
   state = {
-    accessToken: prod ? '' : 'EAACEdEose0cBANiZA76QOapB5fmgY9T47aRLPrSttFW4kJZC3oQG2vzWIZAcDStPg7uuimiaTD1EMxavBVw7QY64dSaAvlbxnkNBL5SpI178NsKilmCWkYIg9A2q5VZCyD54A0GaLZCebe0AoObFwk000pYVAXVvW7DioLO19fBkEpYJHGbtQoRIRCdoPZBbfu91QhgK09vgZDZD',
-    companyName: prod ? '' : 'facebook',
+    accessToken: prod ? '' : 'EAACEdEose0cBADfuj0e3TjKa9pTurLvWhpOaGfUpVU4wJrE6LGPJasDpkYnidTmhZA2MJEL1F8o2SKrRv5IMe2vLUvnVKrePItwFSsMmZAZCMhcfIPpu4CnxemfhWeUGrjwS41Us86OQsH06XpSYYMZBssHogYzl1ffqCAuS6fCKOn804jJn2wh3gUh5EmMZD',
+    companyName: prod ? '' : '',
     pageStatistics: {
       'id': true,
       'name': true,
@@ -92,9 +92,13 @@ class App extends Component {
   handleChangeSelect = (selectedOption) => {
       this.setState({ selectedOption });
       if (selectedOption.label) {
-          this.state.companyName = selectedOption.value
+
+          this.setState({ companyName: selectedOption.value })
+          // this.state.companyName = selectedOption.value
+          console.log(selectedOption.value)
       } else {
-          this.state.companyName = 'facebook'
+          this.setState({ companyName: '' })
+          // this.state.companyName = ''
       }
   }
 
@@ -124,36 +128,41 @@ class App extends Component {
   }
 
   queryAPI() {
-    const { accessToken, companyName, postID, activeTab } = this.state
-    const searchPage = activeTab === 0 ? true : false
-    if (companyName) {
-        //turn date to ISO
-        const start_date = (new moment(this.state.start_date)).seconds(0).milliseconds(0).toISOString()
-        const end_date = (new moment(this.state.end_date)).seconds(0).milliseconds(0).toISOString()
+      const { accessToken, companyName, postID, activeTab } = this.state
+      const searchPage = activeTab === 0 ? true : false
+      if (companyName) {
+          //turn date to ISO
+          const start_date = (new moment(this.state.start_date)).seconds(0).milliseconds(0).toISOString()
+          const end_date = (new moment(this.state.end_date)).seconds(0).milliseconds(0).toISOString()
 
-        // pull out statistics from object
-        const pageStatistics = _.keys(_.pickBy(this.state.pageStatistics, (v, k) => v === true)).join(",")
-        const postStatistics = _.keys(_.pickBy(this.state.postStatistics, (v, k) => v === true)).join(",")
+          // pull out statistics from object
+          const pageStatistics = _.keys(_.pickBy(this.state.pageStatistics, (v, k) => v === true)).join(",")
+          const postStatistics = _.keys(_.pickBy(this.state.postStatistics, (v, k) => v === true)).join(",")
 
-        let apiBase = searchPage ? `${companyName}?statistics=${pageStatistics}` : `post/${postID}?statistics=${postStatistics}`
+          let apiBase = searchPage ? `${companyName}?statistics=${pageStatistics}` : `post/${postID}?statistics=${postStatistics}`
 
-        if (start_date && end_date) {
-            if (start_date < end_date) {
-                apiBase += `&start_date=${start_date.match(/(\d{4})-(\d{2})-(\d{2})/)[0]}&end_date=${end_date.match(/(\d{4})-(\d{2})-(\d{2})/)[0]}`
-            }
-        }
-        this.setState({ loading: true })
-        fetch(`https://unassigned-api.herokuapp.com/api/v3/${apiBase}&access_token=${accessToken}`) /* TODO: remove v3 later */
-        .then((response) => {
-          if (response.ok) {
-            response.json().then(data => {
-              console.log(data)
-              this.setState({ responseJSON: data, loading: false })
-            })
+          var regExp = /(\d{4})-(\d{2})-(\d{2})/
+
+          if (start_date && end_date && (parseInt(end_date.replace(regExp, "$1$2$3"),10) > parseInt(start_date.replace(regExp, "$1$2$3"),10))){
+              apiBase += `&start_date=${start_date.match(regExp)[0]}&end_date=${end_date.match(regExp)[0]}`
+              //console.log(apiBase)
+          }else{
+              //pls someone handle the fact that both dates werent entered or that end_Date > start_date i.e. invalid dates/date range
           }
-        })
-        .catch(error => console.error(error))
-    }
+
+
+          this.setState({ loading: true })
+          fetch(`https://unassigned-api.herokuapp.com/api/${apiBase}&access_token=${accessToken}`)
+          .then((response) => {
+              if (response.ok) {
+                  response.json().then(data => {
+                      console.log(data)
+                      this.setState({ responseJSON: data, loading: false })
+                  })
+              }
+          })
+          .catch(error => console.error(error))
+      }
   }
 
   updateTabs = (event, value) => {
@@ -196,7 +205,7 @@ class App extends Component {
                   <DialogTitle id="alert-dialog-title">{"Why access tokens need to be manually entered"}</DialogTitle>
                   <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        With the ongoing Cambridge Analytica scandal, Facebook have been under intense scrutiny to increase security and protect user privacy. As a consequence of this, they have now retracted the ability to acquire a permanent access_token. Instead, users must frequently generate temporary access_tokens in order to use the Graph API.
+                      Following the recent Cambridge Analytica scandal, Facebook has prevented new users from generating permanent API keys. As a temporary solution, we request that you generate a user access token thorugh the <a href="https://developers.facebook.com/tools/explorer/" target="_blank" rel="noopener noreferrer">tool explorer</a> and use it to run the client.
                     </DialogContentText>
                   </DialogContent>
                 </Dialog>
