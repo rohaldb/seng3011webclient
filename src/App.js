@@ -8,8 +8,8 @@ import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
 import { FormControlLabel } from 'material-ui/Form'
-import Select from 'react-select';
-import Companies from './companies.js';
+import Select from 'react-select'
+import Companies from './companies.js'
 import ResponseCard from './responseCard'
 import moment from 'moment'
 import Typography from 'material-ui/Typography'
@@ -49,7 +49,7 @@ const prod = process.env.NODE_ENV === 'production'
 class App extends Component {
 
   state = {
-    accessToken: prod ? '' : 'EAACEdEose0cBAKhPDpK7r8yQEeIGKJZC3Msg22UbsvrsfCYj1NzWevtqis8uyw3tjGzMecJQNL2IYuSxFaRnpfA72X7VbTbT2o2L5hKFHqchxzuUDwYKjGoqYeyCDpFp0yt7Yt1g59HrugfL6zFlZBkQFa4LUMVvDevftcL2oAqj4UoCzGnyhJqEgdD0wZD',
+    accessToken: prod ? '' : 'EAACEdEose0cBAINRZAN87F1dC7vLSCc7EnVDE7fZBWRvwWtlVJQe9GZBABTcfLTFmq8gAttPKmGld78SZAz1J9g8We6xcBamtgWGbl6jHXRIkG0ZBEBZCIlTiZCsUC1b2LtMeFi6ACirvYgBHAKbFXT2dMKlvbojcxPyXXZAIy5Bg6OZAqkTveO9bQu2gO1qjKm4ZD',
     companyName: prod ? '' : 'facebook',
 
     pageStatistics: {
@@ -76,9 +76,7 @@ class App extends Component {
     start_date: "",
     end_date: "",
     dialogOpen: false,
-    loading: false,
-    selectedOption: '',
-    companiesList: Companies
+    loading: false
   }
 
 
@@ -170,7 +168,7 @@ class App extends Component {
 
 
   render () {
-    const { responseJSON, pageStatistics, postStatistics, activeTab, dialogOpen, loading, selectedOption } = this.state
+    const { responseJSON, pageStatistics, postStatistics, activeTab, dialogOpen, loading } = this.state
     const { classes } = this.props
 
     return (
@@ -245,7 +243,7 @@ class App extends Component {
                               name="companyName"
                               value={this.state.companyName.label}
                               onChange={this.handleChangeSelect}
-                              options={this.state.companiesList}
+                              options={Companies}
                           />
                         </Grid>
                       </Grid>
