@@ -50,8 +50,7 @@ class App extends Component {
 
   state = {
     accessToken: prod ? '' : 'EAACEdEose0cBAKhPDpK7r8yQEeIGKJZC3Msg22UbsvrsfCYj1NzWevtqis8uyw3tjGzMecJQNL2IYuSxFaRnpfA72X7VbTbT2o2L5hKFHqchxzuUDwYKjGoqYeyCDpFp0yt7Yt1g59HrugfL6zFlZBkQFa4LUMVvDevftcL2oAqj4UoCzGnyhJqEgdD0wZD',
-    companyName: prod ? '' : 'facebook',
-
+    companyName: '',
     pageStatistics: {
       'id': true,
       'name': true,
@@ -84,7 +83,8 @@ class App extends Component {
 
   disableButton = () => {
     if (this.state.activeTab === 0) {
-      return _.filter(this.state.pageStatistics).length > 0 ? false : true
+      const stats  = _.filter(this.state.pageStatistics).length > 0 ? false : true
+      return this.state.companyName === '' || stats
     } else {
       return _.filter(this.state.postStatistics).length > 0 ? false : true
     }
