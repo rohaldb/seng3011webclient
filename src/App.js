@@ -8,8 +8,8 @@ import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
 import { FormControlLabel } from 'material-ui/Form'
-import Select from 'react-select';
-import Companies from './companies.js';
+import Select from 'react-select'
+import Companies from './companies.js'
 import ResponseCard from './responseCard'
 import moment from 'moment'
 import Typography from 'material-ui/Typography'
@@ -49,7 +49,7 @@ const prod = process.env.NODE_ENV === 'production'
 class App extends Component {
 
   state = {
-    accessToken: prod ? '' : 'EAACEdEose0cBADfuj0e3TjKa9pTurLvWhpOaGfUpVU4wJrE6LGPJasDpkYnidTmhZA2MJEL1F8o2SKrRv5IMe2vLUvnVKrePItwFSsMmZAZCMhcfIPpu4CnxemfhWeUGrjwS41Us86OQsH06XpSYYMZBssHogYzl1ffqCAuS6fCKOn804jJn2wh3gUh5EmMZD',
+    accessToken: prod ? '' : 'EAACEdEose0cBAPn0tKfeakNdQSQPE88foNKhrokxYuDFdd1Yrpq6E1ZC9cGUNs6T5ZAbvdybmsNlaZAj1OMQrtd2lJJBVhbTOAfJT6lLmDmKmvI37CU69NpRhO2aTUZCuZBhfSLJbslQ6bMYgn1amR6xpgXoJ3B3ck7cJZCtbtxV0lvJp1MNR9dH7m3mpz9v0ZD',
     companyName: prod ? '' : '',
     pageStatistics: {
       'id': true,
@@ -75,9 +75,7 @@ class App extends Component {
     start_date: "",
     end_date: "",
     dialogOpen: false,
-    loading: false,
-    selectedOption: '',
-    companiesList: Companies
+    loading: false
   }
 
 
@@ -92,13 +90,9 @@ class App extends Component {
   handleChangeSelect = (selectedOption) => {
       this.setState({ selectedOption });
       if (selectedOption.label) {
-
           this.setState({ companyName: selectedOption.value })
-          // this.state.companyName = selectedOption.value
-          console.log(selectedOption.value)
       } else {
           this.setState({ companyName: '' })
-          // this.state.companyName = ''
       }
   }
 
@@ -173,7 +167,7 @@ class App extends Component {
 
 
   render () {
-    const { responseJSON, pageStatistics, postStatistics, activeTab, dialogOpen, loading, selectedOption } = this.state
+    const { responseJSON, pageStatistics, postStatistics, activeTab, dialogOpen, loading } = this.state
     const { classes } = this.props
 
     return (
@@ -241,14 +235,18 @@ class App extends Component {
                 {activeTab === 0 ?
                   (
                     <div>
-
-                        <Select
+                    <Grid container justify="center" direction="row">
+                        <Grid item xs={6} style={{padding: '20px'}}>
+                            <Select
                             placeholder="Company Name"
                             name="companyName"
                             value={this.state.companyName.label}
                             onChange={this.handleChangeSelect}
-                            options={this.state.companiesList}
+                            // options={this.state.companiesList}
+                            options={Companies}
                         />
+                        </Grid>
+                    </Grid>
 
                       <TextField
                         label="Start Date"
